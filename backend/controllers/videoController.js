@@ -1,0 +1,103 @@
+const Video = require("../models/Video.js");
+
+
+const formatVideoThumbnail =
+  require("../utils/functions.js").formatVideoThumbnail;
+const verifyMongoDbId = require("../utils/functions.js").verifyMongoDbId;
+
+exports.uploadVideo = async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "Kindly fill all fields" });
+  }
+
+  const { filename } = req.file;
+  const { title, description } = req.body;
+  const fileUrl = `uploads/${filename}`;
+
+  try {
+    await Video.create({
+      title: title,
+      description: description,
+      fileUrl: fileUrl,
+      creator: req.user.id,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Video Uploaded successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.videos = async (req, res) => {
+  try {
+    const video = await Video.find().populate("creator", ["name", "email"]);
+    video.forEach((video) => {
+      video.fileUrl = formatVideoThumbnail(video.fileUrl, req);
+    });
+    return res.status(200).json(video);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Sorry  the server is down");
+  }
+};
+
+exports.getVideoById = async (req, res) => {
+  if (!verifyMongoDbId(req.params.id)) {
+    return res.status(400).json({
+      message: "Looks like the requested video not found. Try a valid ID",
+    });
+  }
+
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) {
+      return res.status(404).json({
+        success: true,
+        error: false,
+        message: "The requested video was not found",
+      });
+    }
+
+    if (!req.user.hasPaid) {
+      return res
+        .status(403)
+        .json({ message: "Access denied. You have no active subscription!" });
+    }
+
+    video.fileUrl = formatVideoThumbnail(video.fileUrl, req);
+    return res.json({
+      success: true,
+      message: "video retrieve successfully",
+      video,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server  Error");
+  }
+};
+
+exports.downloadVideo = async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (video) {
+      await Video.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          views: (video.views += 1),
+          downloads: (video.downloads += 1),
+        },
+        { new: true }
+      );
+      return res.download(video.fileUrl, video.title);
+    } else {
+      return res.status(404).json({ error: "Video not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to download video" });
+  }
+};
+
