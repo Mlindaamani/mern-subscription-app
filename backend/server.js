@@ -1,4 +1,5 @@
 require("dotenv").config();
+const utils = require("./utils/functions");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -10,7 +11,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const router = require("./routes");
 
-//Initialize SocketIO Server
+// Initialize SocketIO Server
 const server = http.createServer(app);
 const io = socketIo(server, corsConfiguration);
 
@@ -25,13 +26,13 @@ io.on("connection", (socket) => {
   });
 });
 
-//Middleware Configuration
+// Middleware
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
-//Routes Mapping
+// API Endpoints
 app.use("/api/auth", router.authenticationRoutes);
 app.use("/api/videos", router.videoRoutes);
 app.use("/api/payments", router.paymentRoutes);
@@ -39,11 +40,9 @@ app.use("/api/users", router.userRoutes);
 app.use("/api/subscription", router.subscriptionRoutes);
 app.use("/api/messages", router.messageRoutes);
 
-//Express Server Instance
+// Server Instance
 server.listen(process.env.PORT, () => {
-  console.log(
-    `✅ Success! Server is running on http://localhost:${process.env.PORT}`
-  );
+  utils.startServer();
   connection.connectToMongoDb();
 });
 

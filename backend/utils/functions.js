@@ -23,6 +23,8 @@ exports.verifyMongoDbId = (videoId) => {
   return mongoose.Types.ObjectId.isValid(videoId);
 };
 
-exports.verifyContentType = () => {
-  return "Verifying the content type of the file";
+exports.startServer = () => {
+  console.log(
+    `✅ Success! Server is running on http://localhost:${process.env.PORT}`
+  );
 };
