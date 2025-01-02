@@ -3,9 +3,15 @@ const { Schema, model } = mongoose;
 
 const messageSchema = Schema(
   {
-    sender: {
-      type: String,
+    senderId: {
+      type: Schema.Types.ObjectId,
+      ref: "Users",
       required: [true, "Sender is required"],
+    },
+
+    receiverId: {
+      type: Schema.Types.ObjectId,
+      required: [true, "The sender id is required"],
     },
 
     message: {
