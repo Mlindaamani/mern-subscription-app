@@ -1,8 +1,8 @@
 module.exports = {
-  messageRouter: require("./messageRoutes"),
-  videoRouter: require("./videoRoutes"),
+  authenticationRoutes: require("./authRoutes"),
+  messageRoutes: require("./messageRoutes"),
+  paymentRoutes: require("./paymentRoutes"),
+  subscriptionRoutes: require("./subscriptionRoutes"),
   userRoutes: require("./userRouters"),
-  paymentRouters: require("./paymentRoutes"),
-  subscriptionRouters: require("./subscriptionRoutes"),
-  authRoutes: require("./authRoutes"),
+  videoRoutes: require("./videoRoutes"),
 };

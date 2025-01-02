@@ -8,7 +8,7 @@ const connection = require("./config/database");
 const app = express();
 const http = require("http");
 const socketIo = require("socket.io");
-const routers = require("./routes");
+const router = require("./routes");
 
 //Initialize SocketIO Server
 const server = http.createServer(app);
@@ -32,12 +32,12 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 //Routes Mapping
-app.use("/api/auth", routers.authRoutes);
-app.use("/api/videos", routers.videoRouter);
-app.use("/api/payments", routers.paymentRouters);
-app.use("/api/users", routers.userRoutes);
-app.use("/api/subscription", routers.subscriptionRouters);
-app.use("/api/messages", routers.messageRouter);
+app.use("/api/auth", router.authenticationRoutes);
+app.use("/api/videos", router.videoRoutes);
+app.use("/api/payments", router.paymentRoutes);
+app.use("/api/users", router.userRoutes);
+app.use("/api/subscription", router.subscriptionRoutes);
+app.use("/api/messages", router.messageRoutes);
 
 //Express Server Instance
 server.listen(process.env.PORT, () => {
