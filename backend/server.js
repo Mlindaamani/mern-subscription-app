@@ -11,6 +11,7 @@ const videoRoutes = require("./routes/videoRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const userRouters = require("./routes/userRouters");
 const subscriptionRoutes = require("./routes/subscriptionRoutes");
+const messageRouter = require("./routes/messageRoutes");
 const app = express();
 const http = require("http");
 const socketIo = require("socket.io");
@@ -21,12 +22,11 @@ const io = socketIo(server, corsConfiguration);
 
 io.on("connection", (socket) => {
   socket.on("sendMessage", async (messageData) => {
-    await Message.create(messageData);
     io.emit("receiveMessage", messageData);
   });
 
-  socket.on("disconnect", () => {
-    console.log("User has disconnected from the chat!");
+  socket.on("disconnect", (reason) => {
+    console.log(`Chat close with: ${reason}`);
   });
 });
 
@@ -42,6 +42,7 @@ app.use("/api/videos", videoRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/users", userRouters);
 app.use("/api/subscription", subscriptionRoutes);
+app.use("/api/messages", messageRouter);
 
 //Express Server Instance
 server.listen(process.env.PORT, () => {

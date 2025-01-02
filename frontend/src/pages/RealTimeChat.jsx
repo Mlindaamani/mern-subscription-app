@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
 import "./chats.css";
 import { authStore } from "../stores/authStore";
-
-const socket = io("http://localhost:5000");
+import { socket } from "../chats/socket";
 
 export const RealTimeChat = () => {
   const [message, setMessage] = useState("");
