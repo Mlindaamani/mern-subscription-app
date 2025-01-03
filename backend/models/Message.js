@@ -5,12 +5,13 @@ const messageSchema = Schema(
   {
     senderId: {
       type: Schema.Types.ObjectId,
-      ref: "Users",
+      ref: "User",
       required: [true, "Sender is required"],
     },
 
     receiverId: {
       type: Schema.Types.ObjectId,
+      ref: "User",
       required: [true, "The sender id is required"],
     },
 
