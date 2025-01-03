@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { RealTimeChat } from "./RealtimeChat";
-import { ScrollableTabsButtonAuto } from "../../../UI/Material";
+import { ScrollableTabsButtonAuto } from "../UI/Material";
 
 export const HomePage = () => {
   return (
