@@ -1,10 +1,8 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import top100Films from "./top100Films";
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
+const films = [
   { label: "The Shawshank Redemption", year: 1994 },
   { label: "The Godfather", year: 1972 },
   { label: "The Godfather: Part II", year: 1974 },
@@ -36,10 +34,7 @@ const top100Films = [
   { label: "Goodfellas", year: 1990 },
   { label: "The Matrix", year: 1999 },
   { label: "Seven Samurai", year: 1954 },
-  {
-    label: "Star Wars: Episode IV - A New Hope",
-    year: 1977,
-  },
+  { label: "Star Wars: Episode IV - A New Hope", year: 1977 },
   { label: "City of God", year: 2002 },
   { label: "Se7en", year: 1995 },
   { label: "The Silence of the Lambs", year: 1991 },
@@ -72,11 +67,6 @@ const top100Films = [
   { label: "Apocalypse Now", year: 1979 },
   { label: "Alien", year: 1979 },
   { label: "Sunset Boulevard", year: 1950 },
-  {
-    label:
-      "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
-    year: 1964,
-  },
   { label: "The Great Dictator", year: 1940 },
   { label: "Cinema Paradiso", year: 1988 },
   { label: "The Lives of Others", year: 2006 },
@@ -96,10 +86,7 @@ const top100Films = [
   { label: "Citizen Kane", year: 1941 },
   { label: "North by Northwest", year: 1959 },
   { label: "Vertigo", year: 1958 },
-  {
-    label: "Star Wars: Episode VI - Return of the Jedi",
-    year: 1983,
-  },
+  { label: "Star Wars: Episode VI - Return of the Jedi", year: 1983 },
   { label: "Reservoir Dogs", year: 1992 },
   { label: "Braveheart", year: 1995 },
   { label: "M", year: 1931 },
@@ -110,10 +97,7 @@ const top100Films = [
   { label: "Taxi Driver", year: 1976 },
   { label: "Lawrence of Arabia", year: 1962 },
   { label: "Double Indemnity", year: 1944 },
-  {
-    label: "Eternal Sunshine of the Spotless Mind",
-    year: 2004,
-  },
+  { label: "Eternal Sunshine of the Spotless Mind", year: 2004 },
   { label: "Amadeus", year: 1984 },
   { label: "To Kill a Mockingbird", year: 1962 },
   { label: "Toy Story 3", year: 2010 },
@@ -136,7 +120,7 @@ export default function ComboBox() {
   return (
     <Autocomplete
       disablePortal
-      options={top100Films}
+      options={films}
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Movie" />}
     />

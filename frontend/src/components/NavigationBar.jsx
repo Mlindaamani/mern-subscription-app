@@ -35,6 +35,9 @@ export const NavigationBar = () => {
               <Nav.Link className="text-light" onClick={handleLogout}>
                 Logout
               </Nav.Link>
+              <Nav.Link className="text-light" as={Link} to="/test">
+                TestMaterialUI
+              </Nav.Link>
             </>
           )}
 
