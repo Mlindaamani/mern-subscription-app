@@ -17,3 +17,7 @@ export const formatVideoViewsCount = (viewsCount) => {
   if (viewsCount <= 4) return "K";
   if (viewsCount >= 4) return "M";
 };
+
+export const tellTime = () => {
+  return "Its noon now";
+};
