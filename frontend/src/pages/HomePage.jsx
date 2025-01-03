@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { RealTimeChat } from "./RealtimeChat";
 
 export const HomePage = () => {
   return (
@@ -19,9 +18,6 @@ export const HomePage = () => {
           CREDOR THE DANCER
         </h1>
 
-        <div className="container">
-          <RealTimeChat />
-        </div>
         <h5 className="mt-5 text-center p-5 mb-5 text-white">
           ENJOY COOL MUSIC FROM CREDOR
         </h5>

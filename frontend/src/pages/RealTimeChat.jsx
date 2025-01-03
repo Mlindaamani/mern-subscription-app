@@ -27,14 +27,14 @@ export const RealTimeChat = () => {
   };
 
   return (
-    <div className="chat-container">
+    <div className="chat-container container p-5">
       <h2 className="chat-title text-center text-light mb-5">
         Chat({user.username})
       </h2>
       <div className="messages">
         {messages.map((msg, index) => (
           <div
-            key={index}
+            key={index}  
             className={`message ${
               msg.sender === "Peter" ? "message-sent" : "message-received"
             }`}

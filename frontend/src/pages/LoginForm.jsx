@@ -12,7 +12,6 @@ export const LoginForm = () => {
   const [password, setPassword] = useState("");
   const { loading, login } = authStore();
 
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -29,15 +28,13 @@ export const LoginForm = () => {
             e.preventDefault();
             login(email, password, navigate);
           }}
-          className="mt-5 bg-warning p-5 rounded-4 "
+          className="mt-5 bg-success p-5 rounded-5 "
         >
           <h5 className="text-center mb-3 p-3 text-white fs-4 fw-bold">
             Login
           </h5>
           <Form.Group className="mb-4">
-            <Form.Label className="fs-5 fw-medium text-secondary">
-              Email
-            </Form.Label>
+            <Form.Label className="fs-5 fw-medium text-light">Email</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter email..."
@@ -46,7 +43,7 @@ export const LoginForm = () => {
           </Form.Group>
 
           <Form.Group className="mb-5">
-            <Form.Label className="fs-5 fw-medium text-secondary">
+            <Form.Label className="fs-5 fw-medium text-light">
               Password
             </Form.Label>
             <Form.Control
@@ -61,17 +58,17 @@ export const LoginForm = () => {
               className="w-100"
               type="submit"
               disabled={loading}
-              variant="success"
+              variant="warning"
             >
               {loading ? "Lognging in..." : "Login"}
             </Button>
           </Form.Group>
 
           <div className="text-center">
-            <span className="text-secondary fs-5 text-medium">
+            <span className="text-light fs-5 text-medium">
               Don't have an account?{" "}
             </span>{" "}
-            <Link to={"/register"} className="text-white">
+            <Link to={"/register"} className="text-warning text-decoration-none fw-bold">
               Register
             </Link>
           </div>

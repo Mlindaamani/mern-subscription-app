@@ -27,14 +27,14 @@ export const RegistrationForm = () => {
             e.preventDefault();
             register(username, email, password, navigate);
           }}
-          className="mt-5 bg-warning p-5 rounded-4 "
+          className="mt-5 bg-success p-5 rounded-5"
         >
           <h5 className="text-center mb-1 p-5 text-white fw-bold fs-4">
             REGISTER NOW
           </h5>
 
           <Form.Group className="mb-3">
-            <Form.Label className="fs-5 fw-medium text-secondary">
+            <Form.Label className="fs-5 fw-medium text-light">
               Username
             </Form.Label>
             <Form.Control
@@ -45,9 +45,7 @@ export const RegistrationForm = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="fs-5 fw-medium text-secondary">
-              Email
-            </Form.Label>
+            <Form.Label className="fs-5 fw-medium text-light">Email</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter email..."
@@ -56,7 +54,7 @@ export const RegistrationForm = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="fs-5 fw-medium text-secondary">
+            <Form.Label className="fs-5 fw-medium text-light">
               Password
             </Form.Label>
             <Form.Control
@@ -71,16 +69,19 @@ export const RegistrationForm = () => {
               className="w-100"
               type="submit"
               disabled={loading}
-              variant="success"
+              variant="warning"
             >
               {loading ? "Registering..." : "Register"}
             </Button>
           </Form.Group>
           <div className="text-center">
-            <span className="text-secondary fs-5 text-medium">
+            <span className="text-light fs-5 text-medium">
               Already have an account?
             </span>{" "}
-            <Link to={import.meta.env.VITE_LOGIN_URL} className="text-white">
+            <Link
+              to={import.meta.env.VITE_LOGIN_URL}
+              className="text-warning text-decoration-none fw-bold"
+            >
               Login
             </Link>
           </div>
