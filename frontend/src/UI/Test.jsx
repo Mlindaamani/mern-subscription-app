@@ -1,9 +1,11 @@
 import React from "react";
-import ComboBox from "./AutoComplete";
-import BasicSelect from "./BasicSelect";
-import { BasicTable } from "./BasicTable";
-import { ScrollableTabsButtonAuto } from "./ScollableTab";
-import { RealTimeChat } from "../pages/RealtimeChat";
+// import { RealTimeChat } from "../pages/RealtimeChat";
+// import ComboBox from "./AutoComplete";
+// import BasicSelect from "./BasicSelect";
+// import { BasicTable } from "./BasicTable";
+// import { ScrollableTabsButtonAuto } from "./ScollableTab";
+// import { PieChatWithLabel } from "./Pie";
+// import { BasicBars } from "./BarChart";
 
 export const TestMaterialUI = () => {
   return (
@@ -21,9 +23,17 @@ export const TestMaterialUI = () => {
         <ScrollableTabsButtonAuto/>
       </div> */}
 
-      <div className="mt-5 mb-3 p-5 m-5">
+      {/* <div className="mt-5 mb-3 p-5 m-5">
         <RealTimeChat />
-      </div>
+      </div> */}
+
+      {/* <div className="mt-5 mb-3 p-5 m-5">
+        <PieChatWithLabel />
+      </div> */}
+
+      {/* <div className="mt-5 mb-3 p-5 m-5">
+        <BasicBars />
+      </div> */}
     </div>
   );
 };

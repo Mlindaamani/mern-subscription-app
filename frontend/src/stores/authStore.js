@@ -17,7 +17,7 @@ export const authStore = create(
 
       register: async (username, email, password, navigate) => {
         if (!username || !email || !password) {
-          return toast.error("All field are required!");
+          return toast.error("Please fill out all fields!");
         }
         set({ loading: true, error: null });
 

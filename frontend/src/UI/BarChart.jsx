@@ -1,7 +1,8 @@
-import * as React from "react";
+import React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 
-export default function BasicBars() {
+
+export const BasicBars = () => {
   return (
     <BarChart
       xAxis={[{ scaleType: "band", data: ["group A", "group B", "group C"] }]}
@@ -10,4 +11,4 @@ export default function BasicBars() {
       height={300}
     />
   );
-}
+};

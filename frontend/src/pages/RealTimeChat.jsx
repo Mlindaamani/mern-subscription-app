@@ -9,6 +9,7 @@ export const RealTimeChat = () => {
   const { user } = authStore();
 
   useEffect(() => {
+    console.log(socket);
     socket.on("receiveMessage", (newMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
@@ -17,9 +18,6 @@ export const RealTimeChat = () => {
       socket.off("receiveMessage");
     };
   }, []);
-
-
-
 
   const sendMessage = () => {
     if (message != "") {

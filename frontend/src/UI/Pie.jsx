@@ -1,4 +1,6 @@
-export const desktopOS = [
+import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
+
+const desktopOS = [
   {
     label: "Windows",
     value: 72.72,
@@ -21,7 +23,7 @@ export const desktopOS = [
   },
 ];
 
-export const mobileOS = [
+const mobileOS = [
   {
     label: "Android",
     value: 70.48,
@@ -36,7 +38,7 @@ export const mobileOS = [
   },
 ];
 
-export const platforms = [
+const platforms = [
   {
     label: "Mobile",
     value: 59.12,
@@ -55,6 +57,7 @@ export const mobileAndDesktopOS = [
     label: v.label === "Other" ? "Other (Mobile)" : v.label,
     value: normalize(v.value, platforms[0].value),
   })),
+
   ...desktopOS.map((v) => ({
     ...v,
     label: v.label === "Other" ? "Other (Desktop)" : v.label,
@@ -62,15 +65,9 @@ export const mobileAndDesktopOS = [
   })),
 ];
 
-export const valueFormatter = (item) => `${item.value}%`;
+const valueFormatter = (item) => `${item.value}%`;
 
-
-
-import * as React from "react";
-import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
-import { desktopOS, valueFormatter } from "./webUsageStats";
-
-export default function PieArcLabel() {
+export const PieChatWithLabel = () => {
   return (
     <PieChart
       series={[
@@ -89,7 +86,7 @@ export default function PieArcLabel() {
       {...size}
     />
   );
-}
+};
 
 const size = {
   width: 400,

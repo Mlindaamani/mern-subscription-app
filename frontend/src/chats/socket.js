@@ -1,4 +1,4 @@
 import { io } from "socket.io-client";
+const WEB_SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
-const SERVER_URL = import.meta.VITE_SOCKET_URL;
-export const socket = io(SERVER_URL);
+export const socket = io(WEB_SOCKET_URL);
