@@ -18,6 +18,9 @@ export const RealTimeChat = () => {
     };
   }, []);
 
+
+
+
   const sendMessage = () => {
     if (message != "") {
       const messageData = { sender: user?.username, message };
@@ -34,7 +37,7 @@ export const RealTimeChat = () => {
       <div className="messages">
         {messages.map((msg, index) => (
           <div
-            key={index}  
+            key={index}
             className={`message ${
               msg.sender === "Peter" ? "message-sent" : "message-received"
             }`}
