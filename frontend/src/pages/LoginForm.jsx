@@ -55,7 +55,7 @@ export const LoginForm = () => {
 
           <Form.Group className="mb-4">
             <Button
-              className="w-100"
+              className="w-100 text-light fw-bold fs-4"
               type="submit"
               disabled={loading}
               variant="warning"
@@ -68,7 +68,10 @@ export const LoginForm = () => {
             <span className="text-light fs-5 text-medium">
               Don't have an account?{" "}
             </span>{" "}
-            <Link to={"/register"} className="text-warning text-decoration-none fw-bold">
+            <Link
+              to={"/register"}
+              className="text-warning text-decoration-none fw-bold"
+            >
               Register
             </Link>
           </div>

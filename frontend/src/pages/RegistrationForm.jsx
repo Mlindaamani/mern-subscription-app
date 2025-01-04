@@ -66,7 +66,7 @@ export const RegistrationForm = () => {
 
           <Form.Group className="mb-4 mt-4">
             <Button
-              className="w-100"
+              className="w-100 fw-bold fs-4 text-light"
               type="submit"
               disabled={loading}
               variant="warning"
