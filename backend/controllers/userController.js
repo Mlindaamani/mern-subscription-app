@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const mongoose = require("mongoose");
 
-exports.getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json({
@@ -16,7 +16,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.getUserById = async (req, res) => {
+const getUserById = async (req, res) => {
   const user = await User.findById({ _id: req.params.id });
   if (!user) {
     res.status(404).json({ success: false, message: "User not found" });
@@ -27,7 +27,7 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-exports.profile = async (req, res) => {
+const profile = async (req, res) => {
   try {
     const userId = new mongoose.Types.ObjectId(req.user.id);
 
@@ -53,3 +53,5 @@ exports.profile = async (req, res) => {
     });
   }
 };
+
+module.exports = { getAllUsers, getUserById, profile };

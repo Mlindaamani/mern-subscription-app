@@ -1,7 +1,7 @@
+const Payment = require("../models/Payment.js");
 const User = require("../models/User.js");
-const Payment = require("../models/Payment.js").default;
 
-exports.processPayment = async (req, res) => {
+const processPayment = async (req, res) => {
   const { paymentDetails, amount } = req.body;
 
   try {
@@ -22,7 +22,7 @@ exports.processPayment = async (req, res) => {
   }
 };
 
-exports.checkPaymentStatus = async (req, res) => {
+const checkPaymentStatus = async (req, res) => {
   try {
     const payment = await Payment.findOne({ user: req.user.id });
     if (!payment) {
@@ -43,7 +43,7 @@ exports.checkPaymentStatus = async (req, res) => {
   }
 };
 
-exports.getUserPayments = async (req, res) => {
+const getUserPayments = async (req, res) => {
   try {
     const payments = await Payment.find().populate("user", [
       "name",
@@ -65,7 +65,7 @@ exports.getUserPayments = async (req, res) => {
   }
 };
 
-exports.getPaymentById = async (req, res) => {
+const getPaymentById = async (req, res) => {
   try {
     const payment = await Payment.findById({ _id: req.params.id });
     if (!payment) {
@@ -80,4 +80,11 @@ exports.getPaymentById = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Internal server error" });
   }
+};
+
+module.exports = {
+  processPayment,
+  checkPaymentStatus,
+  getPaymentById,
+  getUserPayments,
 };

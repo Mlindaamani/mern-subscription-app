@@ -1,31 +1,24 @@
+const {
+  checkPaymentStatus,
+  processPayment,
+  getPaymentById,
+  getUserPayments,
+} = require("../controllers/js");
+
+const {
+  userIsAuthenticatedMiddleware,
+} = require("../middleware/authMiddleware.js");
+
 const express = require("express");
-const paymentController = require("../controllers/paymentController.js");
-const authMiddleware = require("../middleware/authMiddleware.js");
-const router = express.Router();
+const paymentRouter = express.Router();
 
 // Payment routes
-router.get(
-  "/",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  paymentController.getUserPayments
-);
+paymentRouter.get("/", userIsAuthenticatedMiddleware, getUserPayments);
 
-router.get(
-  "/:id",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  paymentController.getPaymentById
-);
+paymentRouter.get("/:id", userIsAuthenticatedMiddleware, getPaymentById);
 
-router.post(
-  "/pay",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  paymentController.processPayment
-);
+paymentRouter.post("/pay", userIsAuthenticatedMiddleware, processPayment);
 
-router.get(
-  "/status",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  paymentController.checkPaymentStatus
-);
+paymentRouter.get("/status", userIsAuthenticatedMiddleware, checkPaymentStatus);
 
-module.exports = router;
+module.exports = paymentRouter;

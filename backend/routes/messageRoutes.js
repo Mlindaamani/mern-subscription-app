@@ -1,12 +1,16 @@
-const express = require("express");
-const authMiddleware = require("../middleware/authMiddleware");
-const messageController = require("../controllers/messageController");
-const router = express.Router();
+const { sendMessage } = require("../controllers/messageController");
 
-router.post(
+const {
+  userIsAuthenticatedMiddleware,
+} = require("../middleware/authMiddleware");
+
+const express = require("express");
+const messageRouter = express.Router();
+
+messageRouter.post(
   "/send/:receiverId",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  messageController.sendMessage
+  userIsAuthenticatedMiddleware,
+  sendMessage
 );
 
-module.exports = router;
+module.exports = messageRouter;

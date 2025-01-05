@@ -1,7 +1,7 @@
 const Message = require("../models/Message");
 const Conversation = require("../models/Conversation");
 
-exports.sendMessage = async (req, res) => {
+const sendMessage = async (req, res) => {
   try {
     const { receiverId } = req.params;
     const { id: senderId } = req.user;
@@ -60,6 +60,8 @@ exports.sendMessage = async (req, res) => {
     });
   }
 };
+
+module.exports = { sendMessage };
 
 // CLIENT LISTEN FOR 'newMessage' EVENT
 

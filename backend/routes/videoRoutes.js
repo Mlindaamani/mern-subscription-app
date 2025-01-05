@@ -1,35 +1,40 @@
 const express = require("express");
-const router = express.Router();
-const videoController = require("../controllers/videoController.js");
-const authMiddleware = require("../middleware/authMiddleware.js");
-const fileUploadMiddleware = require("../middleware/fileUploadMiddleware.js");
-const subscriptionMiddleware = require("../middleware/subscriptionMiddleware.js");
+const videoRouter = express.Router();
 
-router.post(
+const { upload } = require("../middleware/fileUploadMiddleware.js");
+
+const {
+  uploadVideo,
+  downloadVideo,
+  getVideoById,
+} = require("../controllers/videoController.js");
+
+const {
+  userHasSubscribedMiddleware,
+} = require("../middleware/subscriptionMiddleware.js");
+
+const {
+  userIsACreatorMiddleware,
+  userIsAuthenticatedMiddleware,
+} = require("../middleware/authMiddleware.js");
+
+videoRouter.post(
   "/upload",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  authMiddleware.userIsACreatorMiddleware,
-  fileUploadMiddleware.single("file"),
-  videoController.uploadVideo
+  userIsAuthenticatedMiddleware,
+  userIsACreatorMiddleware,
+  upload.single("file"),
+  uploadVideo
 );
 
-router.get(
-  "/",
-  // authMiddleware.userIsAuthenticatedMiddleware,
-  videoController.videos
-);
+videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
 
-router.get(
-  "/download/:id",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  videoController.downloadVideo
-);
+videoRouter.get("/download/:id", userIsAuthenticatedMiddleware, downloadVideo);
 
-router.get(
+videoRouter.get(
   "/:id",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  subscriptionMiddleware.userHasSubscribedMiddleware,
-  videoController.getVideoById
+  userIsAuthenticatedMiddleware,
+  userHasSubscribedMiddleware,
+  getVideoById
 );
 
-module.exports = router;
+module.exports = { videoRouter };

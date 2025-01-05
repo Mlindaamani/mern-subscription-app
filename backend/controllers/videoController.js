@@ -1,11 +1,10 @@
 const Video = require("../models/Video.js");
+const {
+  formatVideoThumbnail,
+  verifyMongoDbId,
+} = require("../utils/functions.js");
 
-
-const formatVideoThumbnail =
-  require("../utils/functions.js").formatVideoThumbnail;
-const verifyMongoDbId = require("../utils/functions.js").verifyMongoDbId;
-
-exports.uploadVideo = async (req, res) => {
+const uploadVideo = async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "Kindly fill all fields" });
   }
@@ -32,7 +31,7 @@ exports.uploadVideo = async (req, res) => {
   }
 };
 
-exports.videos = async (req, res) => {
+const videos = async (req, res) => {
   try {
     const video = await Video.find().populate("creator", ["name", "email"]);
     video.forEach((video) => {
@@ -45,7 +44,7 @@ exports.videos = async (req, res) => {
   }
 };
 
-exports.getVideoById = async (req, res) => {
+const getVideoById = async (req, res) => {
   if (!verifyMongoDbId(req.params.id)) {
     return res.status(400).json({
       message: "Looks like the requested video not found. Try a valid ID",
@@ -80,7 +79,7 @@ exports.getVideoById = async (req, res) => {
   }
 };
 
-exports.downloadVideo = async (req, res) => {
+const downloadVideo = async (req, res) => {
   try {
     const video = await Video.findById(req.params.id);
     if (video) {
@@ -101,3 +100,9 @@ exports.downloadVideo = async (req, res) => {
   }
 };
 
+module.exports = {
+  downloadVideo,
+  getVideoById,
+  videos,
+  uploadVideo,
+};

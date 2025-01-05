@@ -1,8 +1,13 @@
 const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const jwt = require("../utils/functions");
 
-exports.register = async (req, res) => {
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../utils/functions");
+
+const register = async (req, res) => {
   const { username, email, password, role } = req.body;
   try {
     const existingUser = await User.findOne({ email });
@@ -24,7 +29,7 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -53,8 +58,8 @@ exports.login = async (req, res) => {
       role: user.role,
     };
 
-    const accessToken = jwt.generateAccessToken(payload);
-    const refreshToken = jwt.generateRefreshToken(payload);
+    const accessToken = generateAccessToken(payload);
+    const refreshToken = generateRefreshToken(payload);
 
     res.json({
       accessToken,
@@ -73,7 +78,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.refreshToken = (req, res) => {
+const refreshToken = (req, res) => {
   const { token } = req.body;
   if (!token) return res.sendStatus(401);
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
@@ -84,7 +89,9 @@ exports.refreshToken = (req, res) => {
       email: user.email,
       role: user.role,
     };
-    const accessToken = jwt.generateAccessToken(payload);
+    const accessToken = generateAccessToken(payload);
     res.json({ accessToken });
   });
 };
+
+module.exports = { register, login, refreshToken };

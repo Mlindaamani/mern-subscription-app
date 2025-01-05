@@ -1,12 +1,12 @@
+const { subscribe } = require("../controllers/subscriptionController.js");
+const {
+  userIsAuthenticatedMiddleware,
+} = require("../middleware/authMiddleware.js");
+
 const express = require("express");
-const router = express.Router();
-const subscriptionController = require("../controllers/subscriptionController.js");
-const authMiddleware = require("../middleware/authMiddleware.js");
+const subscriptionRouter = express.Router();
 
 //Subscription Routes
-router.post(
-  "/subscribe",
-  authMiddleware.userIsAuthenticatedMiddleware,
-  subscriptionController.subscribe
-);
-module.exports = router;
+subscriptionRouter.post("/subscribe", userIsAuthenticatedMiddleware, subscribe);
+
+module.exports = subscriptionRouter;

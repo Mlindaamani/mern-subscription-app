@@ -1,6 +1,6 @@
 const Subscription = require("../models/Subscription");
 
-exports.subscribe = async (req, res) => {
+const subscribe = async (req, res) => {
   const allowedPlans = ["basic", "premium", "standard", "meru"];
 
   const { plan } = req.body;
@@ -39,4 +39,8 @@ exports.subscribe = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
+};
+
+module.exports = {
+  subscribe,
 };

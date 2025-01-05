@@ -1,17 +1,23 @@
 require("dotenv").config();
-const utils = require("./utils/functions");
-const express = require("express");
+const { corsConfiguration, startServer } = require("./utils/functions");
 const cors = require("cors");
 const morgan = require("morgan");
-const corsConfiguration = require("./utils/cors-data");
-const errorMiddleware = require("./middleware/errorMiddleware");
-const connection = require("./config/database");
-const app = express();
-const http = require("http");
+const { errorMiddleware } = require("./middleware/errorMiddleware");
+const {
+  userRouter,
+  videoRouter,
+  paymentRoutes,
+  subscriptionRoutes,
+  authorRouter,
+  messageRoutes,
+} = require("./routes");
+const { connnectToMongoDb } = require("./config/database");
+const express = require("express");
 const socketIo = require("socket.io");
-const router = require("./routes");
+const http = require("http");
 
 // Initialize SocketIO Server
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, corsConfiguration);
 
@@ -33,17 +39,17 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 // API Endpoints
-app.use("/api/auth", router.authenticationRoutes);
-app.use("/api/videos", router.videoRoutes);
-app.use("/api/payments", router.paymentRoutes);
-app.use("/api/users", router.userRoutes);
-app.use("/api/subscription", router.subscriptionRoutes);
-app.use("/api/messages", router.messageRoutes);
+app.use("/api/auth", authorRouter);
+app.use("/api/videos", videoRouter);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/users", userRouter);
+app.use("/api/subscription", subscriptionRoutes);
+app.use("/api/messages", messageRoutes);
 
 // Server Instance
 server.listen(process.env.PORT, () => {
-  utils.startServer();
-  connection.connectToMongoDb();
+  startServer();
+  connnectToMongoDb();
 });
 
-app.use(errorMiddleware.errorMiddleware);
+app.use(errorMiddleware);

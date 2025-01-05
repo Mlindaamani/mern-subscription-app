@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-exports.userIsAuthenticatedMiddleware = async (req, res, next) => {
+const userIsAuthenticatedMiddleware = async (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token)
     return res
@@ -20,8 +20,13 @@ exports.userIsAuthenticatedMiddleware = async (req, res, next) => {
   }
 };
 
-exports.userIsACreatorMiddleware = (req, res, next) => {
+const userIsACreatorMiddleware = (req, res, next) => {
   if (req.user.role !== process.env.CREDOR_SYS_USER)
     return res.status(403).json({ message: "Access Denied" });
   next();
+};
+
+module.exports = {
+  userIsACreatorMiddleware,
+  userIsAuthenticatedMiddleware,
 };

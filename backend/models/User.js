@@ -50,4 +50,10 @@ const userSchema = Schema(
   }
 );
 
+// userSchema.virtual("thumbnail").get(function(){
+//   if(this.hasPaid) {
+
+//   }
+// })
+
 module.exports = model("User", userSchema);
