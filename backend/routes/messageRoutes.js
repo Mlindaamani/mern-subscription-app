@@ -13,4 +13,4 @@ messageRouter.post(
   sendMessage
 );
 
-module.exports = messageRouter;
+module.exports = {messageRouter};

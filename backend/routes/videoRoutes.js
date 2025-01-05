@@ -7,6 +7,7 @@ const {
   uploadVideo,
   downloadVideo,
   getVideoById,
+  videos,
 } = require("../controllers/videoController.js");
 
 const {

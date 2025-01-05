@@ -1,13 +1,13 @@
 const express = require("express");
-const authorRouter = express.Router();
+const authRouter = express.Router();
 const {
   register,
   refreshToken,
   login,
 } = require("../controllers/authController");
 
-authorRouter.post("/register", register);
-authorRouter.post("/login", login);
-authorRouter.post("/refresh-token", refreshToken);
+authRouter.post("/register", register);
+authRouter.post("/login", login);
+authRouter.post("/refresh-token", refreshToken);
 
-module.exports = { authorRouter };
+module.exports = { authRouter };

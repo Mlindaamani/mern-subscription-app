@@ -3,7 +3,7 @@ const {
   processPayment,
   getPaymentById,
   getUserPayments,
-} = require("../controllers/js");
+} = require("../controllers/paymentController.js");
 
 const {
   userIsAuthenticatedMiddleware,
@@ -21,4 +21,4 @@ paymentRouter.post("/pay", userIsAuthenticatedMiddleware, processPayment);
 
 paymentRouter.get("/status", userIsAuthenticatedMiddleware, checkPaymentStatus);
 
-module.exports = paymentRouter;
+module.exports = { paymentRouter };

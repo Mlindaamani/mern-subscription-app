@@ -9,4 +9,4 @@ const subscriptionRouter = express.Router();
 //Subscription Routes
 subscriptionRouter.post("/subscribe", userIsAuthenticatedMiddleware, subscribe);
 
-module.exports = subscriptionRouter;
+module.exports = { subscriptionRouter };

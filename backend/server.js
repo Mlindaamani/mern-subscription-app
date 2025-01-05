@@ -6,10 +6,10 @@ const { errorMiddleware } = require("./middleware/errorMiddleware");
 const {
   userRouter,
   videoRouter,
-  paymentRoutes,
-  subscriptionRoutes,
-  authorRouter,
-  messageRoutes,
+  paymentRouter,
+  subscriptionRouter,
+  authRouter,
+  messageRouter,
 } = require("./routes");
 const { connnectToMongoDb } = require("./config/database");
 const express = require("express");
@@ -39,12 +39,12 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 // API Endpoints
-app.use("/api/auth", authorRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/videos", videoRouter);
-app.use("/api/payments", paymentRoutes);
+app.use("/api/payments", paymentRouter);
 app.use("/api/users", userRouter);
-app.use("/api/subscription", subscriptionRoutes);
-app.use("/api/messages", messageRoutes);
+app.use("/api/subscription", subscriptionRouter);
+app.use("/api/messages", messageRouter);
 
 // Server Instance
 server.listen(process.env.PORT, () => {

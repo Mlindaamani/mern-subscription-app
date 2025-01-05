@@ -17,4 +17,4 @@ userRouter.get("/profile", userIsAuthenticatedMiddleware, profile);
 
 userRouter.get("/:id", userIsAuthenticatedMiddleware, getUserById);
 
-module.exports = userRouter;
+module.exports = { userRouter };
