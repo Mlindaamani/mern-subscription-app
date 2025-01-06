@@ -15,6 +15,7 @@ const subscriptionSchema = Schema({
       message: "{VALUE} is not a valid plan",
     },
     required: [true, "Plan is required"],
+    unique: true,
   },
 
   startDate: {

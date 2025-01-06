@@ -13,14 +13,13 @@ const subscribe = async (req, res) => {
   }
 
   try {
-    //Check whether a user has already
-    const userSubscription = await Subscription.findOne({
+    let userSubscription = await Subscription.findOne({
       user: req.user.id,
       plan: plan,
     });
 
     if (!userSubscription) {
-      const subscription = await Subscription.create({
+      const newSubscription = await Subscription.create({
         user: req.user.id,
         plan,
         isActive: true,
@@ -28,20 +27,16 @@ const subscribe = async (req, res) => {
 
       return res.status(200).json({
         message: `You have successfully subscribed to the ${plan} plan`,
-        subscription,
+        newSubscription,
       });
     }
 
-    if (userSubscription.isActive && userSubscription.plan != plan) {
-      const subscription = await Subscription.create({
-        user: req.user.id,
-        plan,
-        isActive: true,
-      });
+    if (userSubscription.isActive) {
+      userSubscription.plan = plan;
+      userSubscription.save();
 
       return res.status(200).json({
         message: `You have successfully upgraded your plan to  ${plan}`,
-        subscription,
       });
     } else {
       return res.status(404).json({

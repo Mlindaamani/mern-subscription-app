@@ -5,7 +5,7 @@ import { axiosInstance } from "../config/axios";
 export const subscriptionStore = create((set) => ({
   loading: false,
   subscribe: async (plan, navigate) => {
-    if (!plan) return toast.error("Please select plan");
+    if (!plan) return toast.error("Please select a plan!");
 
     set({ loading: true, error: null });
 
@@ -15,7 +15,7 @@ export const subscriptionStore = create((set) => ({
       });
 
       set({ loading: false });
-      toast.success(`You have successfully subscribed to credor ${plan}`, {
+      toast.success(`Success! Subscribed to ${plan}`, {
         duration: 2000,
         id: "register",
       });
