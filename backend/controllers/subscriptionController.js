@@ -19,8 +19,6 @@ const subscribe = async (req, res) => {
       plan: plan,
     });
 
-    console.log(userSubscription);
-
     if (!userSubscription) {
       const subscription = await Subscription.create({
         user: req.user.id,
