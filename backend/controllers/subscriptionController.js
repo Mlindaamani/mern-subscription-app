@@ -2,11 +2,9 @@ const Subscription = require("../models/Subscription");
 
 const subscribe = async (req, res) => {
   const allowedPlans = ["basic", "premium", "standard", "meru"];
-
   const { plan } = req.body;
 
   if (plan != null && !allowedPlans.includes(plan)) {
-
     return res.status(400).json({
       message: `${plan} is not a valid plan. Allowed plans are: ${allowedPlans.join(
         ", "
@@ -16,7 +14,12 @@ const subscribe = async (req, res) => {
 
   try {
     //Check whether a user has already
-    const userSubscription = await Subscription.findOne({ user: req.user.id });
+    const userSubscription = await Subscription.findOne({
+      user: req.user.id,
+      plan: plan,
+    });
+
+    console.log(userSubscription);
 
     if (!userSubscription) {
       const subscription = await Subscription.create({
