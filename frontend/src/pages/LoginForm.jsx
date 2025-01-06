@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 
-//677402846642653c48f648f1
 export const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");

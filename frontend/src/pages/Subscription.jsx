@@ -132,7 +132,7 @@ export const Subscription = () => {
             </div>
           </Col>
           <Col
-            onClick={() => handleClick("pre")}
+            onClick={() => handleClick("premium")}
             style={{ cursor: "pointer" }}
           >
             {/* Premium Package*/}
