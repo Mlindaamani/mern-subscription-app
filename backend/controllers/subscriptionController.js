@@ -4,7 +4,7 @@ exports.subscribe = async (req, res) => {
   const allowedPlans = ["basic", "premium", "standard", "meru"];
 
   const { plan } = req.body;
-  if (!allowedPlans.includes(plan)) {
+  if (plan != null && !allowedPlans.includes(plan)) {
     return res.status(400).json({
       message: `${plan} is not a valid plan. Allowed plans are: ${allowedPlans.join(
         ", "
