@@ -34,3 +34,15 @@ const subscriptionSchema = Schema({
 });
 
 module.exports = model("Subscription", subscriptionSchema);
+
+subscriptionSchema.methods.getActiveSubscription = function () {
+  this.isActive = true;
+};
+
+subscriptionSchema.methods.activateSubscription = function (value) {
+  this.plan = value;
+};
+
+subscriptionSchema.virtual("userSubscriptionPlan").get(function () {
+  return this.plan;
+});
