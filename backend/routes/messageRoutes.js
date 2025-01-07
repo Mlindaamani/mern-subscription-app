@@ -1,4 +1,7 @@
-const { sendMessage } = require("../controllers/messageController");
+const {
+  sendMessage,
+  getMessages,
+} = require("../controllers/messageController");
 
 const {
   userIsAuthenticatedMiddleware,
@@ -7,10 +10,11 @@ const {
 const express = require("express");
 const messageRouter = express.Router();
 
+messageRouter.get("/", getMessages);
 messageRouter.post(
   "/send/:receiverId",
   userIsAuthenticatedMiddleware,
   sendMessage
 );
 
-module.exports = {messageRouter};
+module.exports = { messageRouter };

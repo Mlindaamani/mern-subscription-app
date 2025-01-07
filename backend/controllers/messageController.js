@@ -1,5 +1,14 @@
-const Message = require("../models/Message");
-const Conversation = require("../models/Conversation");
+const { Message } = require("../models/Message");
+const { Conversation } = require("../models/Conversation");
+
+const getMessages = async (req, res) => {
+  const messages = await Message.find({
+    receiverId: "6777957ef9f1e12bf9ef1a53",
+  })
+    .sort({ created_at: "asc" })
+    .limit(20);
+  return res.status(200).json({ messages: messages });
+};
 
 const sendMessage = async (req, res) => {
   try {
@@ -61,7 +70,7 @@ const sendMessage = async (req, res) => {
   }
 };
 
-module.exports = { sendMessage };
+module.exports = { sendMessage, getMessages };
 
 // CLIENT LISTEN FOR 'newMessage' EVENT
 
