@@ -1,4 +1,4 @@
-const Subscription = require("../models/Subscription");
+const { Subscription } = require("../models/Subscription");
 
 const subscribe = async (req, res) => {
   const allowedPlans = ["basic", "premium", "standard", "meru"];
@@ -14,7 +14,6 @@ const subscribe = async (req, res) => {
 
   try {
     let userSubscription = await Subscription.find({ user: req.user.id });
-  
 
     if (userSubscription.length === 0) {
       await Subscription.create({

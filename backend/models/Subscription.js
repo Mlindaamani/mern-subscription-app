@@ -34,8 +34,9 @@ const subscriptionSchema = Schema({
   },
 });
 
-const subscription = model("Subscription", subscriptionSchema);
-module.exports = { subscription };
+const Subscription = model("Subscription", subscriptionSchema);
+
+module.exports = { Subscription };
 
 // subscriptionSchema.methods.getActiveSubscription = function () {
 //   this.isActive = true;
