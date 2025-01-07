@@ -16,6 +16,10 @@ const userSchema = Schema(
       lowercase: true,
       trim: true,
       unique: true,
+      validate: {
+        validator: (value) => value.length >= 8,
+        message: (props) => `The ${props.value} must be 2 chars`,
+      },
     },
 
     password: {

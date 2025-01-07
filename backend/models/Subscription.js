@@ -36,14 +36,32 @@ const subscriptionSchema = Schema({
 
 module.exports = model("Subscription", subscriptionSchema);
 
-subscriptionSchema.methods.getActiveSubscription = function () {
-  this.isActive = true;
-};
+// subscriptionSchema.methods.getActiveSubscription = function () {
+//   this.isActive = true;
+// };
 
-subscriptionSchema.methods.activateSubscription = function (value) {
-  this.plan = value;
-};
+// subscriptionSchema.methods.activateSubscription = function (value) {
+//   this.plan = value;
+// };
 
-subscriptionSchema.virtual("userSubscriptionPlan").get(function () {
-  return this.plan;
-});
+// subscriptionSchema.virtual("userSubscriptionPlan").get(function () {
+//   return this.plan;
+// });
+
+// export const getPlanPrice = (plan) => {
+//   const prices = {
+//     basic: 20,
+//     standard: 60,
+//     premium: 100,
+//   };
+//   return prices[plan] || 0;
+// };
+
+// export const calculateProratedAmount = (currentPrice, newPrice, startDate) => {
+//   // let's assume a monthly billing cycle
+//   const daysInMonth = 30;
+//   const daysUsed = (Date.now() - new Date(startDate)) / (1000 * 60 * 60 * 24);
+//   const remainingDays = daysInMonth - daysUsed;
+//   const proratedCurrent = (currentPrice / daysInMonth) * remainingDays;
+//   return newPrice - proratedCurrent;
+// };

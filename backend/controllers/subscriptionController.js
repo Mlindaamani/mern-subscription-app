@@ -13,13 +13,11 @@ const subscribe = async (req, res) => {
   }
 
   try {
-    let userSubscription = await Subscription.findOne({
-      user: req.user.id,
-      plan: plan,
-    });
+    let userSubscription = await Subscription.find({ user: req.user.id });
+  
 
-    if (!userSubscription) {
-      const newSubscription = await Subscription.create({
+    if (userSubscription.length === 0) {
+      await Subscription.create({
         user: req.user.id,
         plan,
         isActive: true,
@@ -27,25 +25,23 @@ const subscribe = async (req, res) => {
 
       return res.status(200).json({
         message: `You have successfully subscribed to the ${plan} plan`,
-        newSubscription,
       });
     }
 
-    if (userSubscription.isActive) {
-      userSubscription.plan = plan;
-      userSubscription.save();
-
+    if (userSubscription.plan === plan) {
       return res.status(200).json({
-        message: `You have successfully upgraded your plan to  ${plan}`,
-      });
-    } else {
-      return res.status(404).json({
-        error: true,
-        success: false,
-        message:
-          "Looks like you have already subscribe. Kindly upgrade your plan",
+        message: `You have already subscribed to this plan (${plan})`,
       });
     }
+
+    // if (userSubscription.plan === plan) {
+    //   userSubscription.plan = plan;
+    //   await userSubscription.save();
+
+    //   return res.status(200).json({
+    //     message: `You have successfully upgraded your plan to  ${plan}`,
+    //   });
+    // }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
