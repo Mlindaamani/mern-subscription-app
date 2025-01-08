@@ -31,3 +31,7 @@ const messageSchema = Schema(
 
 const Message = model("Message", messageSchema);
 module.exports = { Message };
+
+//c:\Windows\System32\Drivers\etc\hosts
+//How to install YII2 applicationnusing docker compose.
+// How to use cdocker compose to create YIi2 app from scratcha.
