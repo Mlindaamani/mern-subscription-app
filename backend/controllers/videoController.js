@@ -45,26 +45,27 @@ const videos = async (req, res) => {
 };
 
 const getVideoById = async (req, res) => {
-  if (!verifyMongoDbId(req.params.id)) {
+  const { videoId } = req.params;
+  if (!verifyMongoDbId(videoId)) {
     return res.status(400).json({
       message: "Looks like the requested video not found. Try a valid ID",
     });
   }
 
+  if (!req.user.hasPaid) {
+    return res
+      .status(403)
+      .json({ message: "Access denied. You have no active subscription!" });
+  }
+
   try {
-    const video = await Video.findById(req.params.id);
+    const video = await Video.findById(videoId);
     if (!video) {
       return res.status(404).json({
         success: true,
         error: false,
         message: "The requested video was not found",
       });
-    }
-
-    if (!req.user.hasPaid) {
-      return res
-        .status(403)
-        .json({ message: "Access denied. You have no active subscription!" });
     }
 
     video.fileUrl = formatVideoThumbnail(video.fileUrl, req);
