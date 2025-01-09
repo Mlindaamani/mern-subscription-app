@@ -19,6 +19,7 @@ const {
   userIsAuthenticatedMiddleware,
 } = require("../middleware/authMiddleware.js");
 
+//VIDEO ROUTES
 videoRouter.post(
   "/upload",
   userIsAuthenticatedMiddleware,

@@ -16,7 +16,7 @@ const sendMessage = async (req, res) => {
     const { id: senderId } = req.user;
     const { message } = req.body;
 
-    // Validate the message content
+    // Validate the message content.
     if (!message || typeof message !== "string" || message.trim() === "") {
       return res.status(400).json({
         success: false,
