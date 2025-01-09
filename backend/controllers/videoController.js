@@ -1,4 +1,4 @@
-const Video = require("../models/Video.js");
+const { Video } = require("../models/Video.js");
 const {
   formatVideoThumbnail,
   verifyMongoDbId,

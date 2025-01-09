@@ -44,4 +44,5 @@ const videoSchema = Schema({
   },
 });
 
-module.exports = model("Video", videoSchema);
+const Video = model("Video", videoSchema);
+module.exports = { Video };
