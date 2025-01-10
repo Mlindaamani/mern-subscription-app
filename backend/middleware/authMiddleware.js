@@ -1,27 +1,37 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const { User } = require("../models/User");
 
+/**
+ * @typedef {import('express').Request} Request
+ * @typedef {import('express').Response} Response
+ */
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 const userIsAuthenticatedMiddleware = async (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
-  if (!token)
-    return res
-      .status(401)
-      .json({ message: "No token, access denied. Please  login or signup" });
+  if (!token) return res.status(401).json({ message: "Access denied" });
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findOne({ _id: payload.id });
-    req.user = { id: user._id, role: user.role, hasPaid: user.hasPaid };
-    next();
+    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
+      if (error) return res.status(401).json({ message: "Wrong token" });
+      req.user = user;
+      next();
+    });
   } catch (error) {
-    return res
-      .status(401)
-      .json({ message: "Access denied! You need more privileges" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 const userIsACreatorMiddleware = (req, res, next) => {
-  if (req.user.role !== process.env.CREDOR_SYS_USER)
+  const { role } = req.user;
+  if (role !== process.env.CREDOR_SYS_USER)
     return res.status(403).json({ message: "Access Denied" });
   next();
 };

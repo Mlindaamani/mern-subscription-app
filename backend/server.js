@@ -1,4 +1,3 @@
-// require("dotenv").config();
 const { corsConfiguration, startServer } = require("./utils/functions");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -53,9 +52,6 @@ server.listen(process.env.PORT, () => {
 });
 
 app.use(errorMiddleware);
-
-
-
 
 // const Subscription = require('../models/subscription'); // Adjust the path as necessary
 // const User = require('../models/user'); // Assuming you have a User model

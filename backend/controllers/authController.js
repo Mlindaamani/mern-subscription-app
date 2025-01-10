@@ -9,6 +9,7 @@ const {
 
 const register = async (req, res) => {
   const { username, email, password, role } = req.body;
+  
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -57,6 +58,7 @@ const login = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      hasPaid: user.hasPaid,
     };
 
     const accessToken = generateAccessToken(payload);

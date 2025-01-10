@@ -64,14 +64,15 @@ const videos = async (req, res) => {
  */
 
 const getVideoById = async (req, res) => {
-  const { videoId } = req.params;
+  const { id: videoId } = req.params;
+  const { hasPaid } = req.user;
   if (!verifyMongoDbId(videoId)) {
     return res.status(400).json({
-      message: "Looks like the requested video not found. Try a valid ID",
+      message: "Video not found. Try a valid ID",
     });
   }
 
-  if (!req.user.hasPaid) {
+  if (!hasPaid) {
     return res
       .status(403)
       .json({ message: "Access denied. You have no active subscription!" });
@@ -94,7 +95,7 @@ const getVideoById = async (req, res) => {
       video,
     });
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     res.status(500).send("Internal Server  Error");
   }
 };
@@ -105,11 +106,12 @@ const getVideoById = async (req, res) => {
  */
 
 const downloadVideo = async (req, res) => {
+  const { id: videoId } = req.params;
   try {
-    const video = await Video.findById(req.params.id);
+    const video = await Video.findById(videoId);
     if (video) {
       await Video.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: videoId },
         {
           views: (video.views += 1),
           downloads: (video.downloads += 1),
