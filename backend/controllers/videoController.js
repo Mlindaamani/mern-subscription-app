@@ -4,6 +4,15 @@ const {
   verifyMongoDbId,
 } = require("../utils/functions.js");
 
+/**
+ * @typedef {import('express').Request} Request
+ * @typedef {import('express').Response} Response
+ */
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 const uploadVideo = async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "Kindly fill all fields" });
@@ -31,6 +40,11 @@ const uploadVideo = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ */
 const videos = async (req, res) => {
   try {
     const video = await Video.find().populate("creator", ["name", "email"]);
@@ -43,6 +57,11 @@ const videos = async (req, res) => {
     res.status(500).send("Sorry  the server is down");
   }
 };
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 
 const getVideoById = async (req, res) => {
   const { videoId } = req.params;
@@ -79,6 +98,11 @@ const getVideoById = async (req, res) => {
     res.status(500).send("Internal Server  Error");
   }
 };
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 
 const downloadVideo = async (req, res) => {
   try {

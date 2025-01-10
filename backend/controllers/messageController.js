@@ -1,7 +1,23 @@
 const { Message } = require("../models/Message");
 const { Conversation } = require("../models/Conversation");
 
+/**
+ * @typedef {import('express').Request} Request
+ * @typedef {import('express').Response} Response
+ T
+
+/**
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
+ * @returns 
+ */
 const getMessages = async (req, res) => {
+  // const authorisation = req.headers.authorization ? req.body : null;
+  // res.download("somefile.txt", "somefallbackfile.txt", (error) => {
+  //   console.log(authorisation.toLowerCase());
+  //   return error.message;
+  // });
   const messages = await Message.find({
     receiverId: "6777957ef9f1e12bf9ef1a53",
   })
