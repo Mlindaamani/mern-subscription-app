@@ -1,7 +1,7 @@
-// models/Payment.js
 const mongoose = require("mongoose");
+const { model, Schema } = mongoose;
 
-const paymentSchema = new mongoose.Schema({
+const paymentSchema = Schema({
   householdId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User ",
@@ -26,5 +26,5 @@ const paymentSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-module.exports = mongoose.model("Payment", paymentSchema);
+const homeFixPayment = model("Payment", paymentSchema);
+module.exports = { homeFixPayment };
