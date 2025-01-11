@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
@@ -26,6 +27,12 @@ const formatVideoThumbnail = (videoUrl, req) => {
   return `${protocol}://${host}/${videoUrl}`;
 };
 
+const hashPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  console.log(salt);
+  return await bycrypt.hash(password, salt);
+};
+
 const verifyMongoDbId = (videoId) => {
   return mongoose.Types.ObjectId.isValid(videoId);
 };
@@ -43,4 +50,5 @@ module.exports = {
   formatVideoThumbnail,
   verifyMongoDbId,
   startServer,
+  hashPassword,
 };

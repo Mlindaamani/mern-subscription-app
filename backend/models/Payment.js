@@ -33,4 +33,5 @@ paymentSchema.method("setPaymentStatus", function (status) {
   this.status = status;
 });
 
-module.exports = model("Payment", paymentSchema);
+const Payment = model("Payment", paymentSchema);
+module.exports = { Payment };
