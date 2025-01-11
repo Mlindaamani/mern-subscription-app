@@ -1,19 +1,22 @@
-// models/Service.js
 const mongoose = require("mongoose");
+const { model, Schema } = mongoose;
 
-const serviceSchema = new mongoose.Schema({
+const serviceSchema = Schema({
   name: {
     type: String,
     required: true,
   },
+
   description: {
     type: String,
     required: true,
   },
+
   price: {
     type: Number,
     required: true,
   },
+
   repairProfessionalId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "RepairProfessional",
@@ -21,4 +24,5 @@ const serviceSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Service", serviceSchema);
+const Service = model("Service", serviceSchema);
+module.exports = { Service };
