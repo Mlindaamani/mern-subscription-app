@@ -21,7 +21,6 @@ export const videoStore = create((set) => ({
         position: "bottom-right",
         id: "video",
       });
-
       navigate("/videos");
     } catch (error) {
       set({ loading: false });

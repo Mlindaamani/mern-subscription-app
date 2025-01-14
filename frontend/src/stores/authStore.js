@@ -56,7 +56,16 @@ export const authStore = create(
               password,
             })
           ).data;
-          console.log(user);
+
+          const results = (
+            await axiosInstance.post("/auth/login/", {
+              email,
+              password,
+            })
+          ).data;
+          
+          console.log(results);
+
           storeTokens(accessToken, refreshToken);
           toast.success("You have successfully logged in.", {
             duration: 2000,

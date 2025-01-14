@@ -65,6 +65,8 @@ const videos = async (req, res) => {
 
 const getVideoById = async (req, res) => {
   const { id: videoId } = req.params;
+  console.log(id);
+  console.log("This line of code wad excuted successful");
   const { hasPaid } = req.user;
   if (!verifyMongoDbId(videoId)) {
     return res.status(400).json({

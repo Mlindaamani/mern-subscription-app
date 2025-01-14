@@ -9,7 +9,7 @@ const {
 
 const register = async (req, res) => {
   const { username, email, password, role } = req.body;
-  
+
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -46,17 +46,12 @@ const login = async (req, res) => {
 
     const passwordMatches = await bcryptjs.compare(password, user.password);
     if (!passwordMatches) {
-      return res.status(400).json({
-        success: false,
-        error: true,
-        message: "Invalid email or password",
-      });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const payload = {
       id: user._id,
-      name: user.name,
-      email: user.email,
+      name: user.username,
       role: user.role,
       hasPaid: user.hasPaid,
     };
@@ -65,15 +60,9 @@ const login = async (req, res) => {
     const refreshToken = generateRefreshToken(payload);
 
     res.json({
+      user: payload,
       accessToken,
       refreshToken,
-      user: {
-        id: user._id,
-        role: user.role,
-        hasPaid: user.hasPaid,
-        username: user.username,
-        email: user.email,
-      },
     });
   } catch (error) {
     console.error(error);
@@ -83,14 +72,15 @@ const login = async (req, res) => {
 
 const refreshToken = (req, res) => {
   const { token } = req.body;
+  console.log(token);
   if (!token) return res.sendStatus(401);
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     const payload = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
+      id: user._id,
+      name: user.username,
       role: user.role,
+      hasPaid: user.hasPaid,
     };
     const accessToken = generateAccessToken(payload);
     res.json({ accessToken });

@@ -1,8 +1,4 @@
-const express = require("express");
-const videoRouter = express.Router();
-
 const { upload } = require("../middleware/fileUploadMiddleware.js");
-
 const {
   uploadVideo,
   downloadVideo,
@@ -18,6 +14,9 @@ const {
   userIsACreatorMiddleware,
   userIsAuthenticatedMiddleware,
 } = require("../middleware/authMiddleware.js");
+
+const express = require("express");
+const videoRouter = express.Router();
 
 //VIDEO ROUTES
 videoRouter.post(
