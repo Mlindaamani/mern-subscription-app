@@ -1,5 +1,6 @@
 const { Message } = require("../models/Message");
 const { Conversation } = require("../models/Conversation");
+const { verifyMongoDbId } = require("../utils/functions");
 
 /**
  * @typedef {import('express').Request} Request
@@ -13,12 +14,23 @@ const { Conversation } = require("../models/Conversation");
  * @returns 
  */
 const getMessages = async (req, res) => {
-  const messages = await Message.find({
-    receiverId: "6777957ef9f1e12bf9ef1a53",
-  })
-    .sort({ created_at: "asc" })
-    .limit(20);
+  const messages = await Message.find().sort({ created_at: "asc" }).limit(100);
   return res.status(200).json({ messages: messages });
+};
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+const getSenderMessages = async (req, res) => {
+  const { id: senderId } = req.user;
+
+  const messages = await Message.find({ senderId: senderId })
+    .sort({ created_at: "desc" })
+    .limit(3);
+  if (messages.length > 0) {
+    res.status(200).json({ messages: messages });
+  }
 };
 
 const sendMessage = async (req, res) => {
@@ -81,10 +93,9 @@ const sendMessage = async (req, res) => {
   }
 };
 
-module.exports = { sendMessage, getMessages };
+module.exports = { sendMessage, getMessages, getSenderMessages };
 
 // CLIENT LISTEN FOR 'newMessage' EVENT
-
 // const socket = io();
 // // Listen for new messages
 // socket.on("newMessage", (data) => {
