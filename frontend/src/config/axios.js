@@ -7,19 +7,26 @@ import {
   removeTokens,
 } from "../utils/localStorage";
 
-//Create the axios instance for interacting with backend API
+// Axios Instance
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 // Request interceptor to attach the access token to headers
-axiosInstance.interceptors.request.use((config) => {
-  const token = getAccessToken();
-  if (token) {
-    config.headers["Authorization"] = `JWT ${token}`;
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getAccessToken();
+    console.log(config);
+    if (token && !config.headers.Authorization) {
+      config.headers.Authorization = `JWT ${token}`;
+    }
+    return config;
+  },
+
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
 
 // Response interceptor to handle token refresh
 axiosInstance.interceptors.response.use(
@@ -27,27 +34,27 @@ axiosInstance.interceptors.response.use(
 
   async (error) => {
     const originalRequest = error.config;
-
-    // Check if the error is due to an expired token and avoid infinite loop by checking _retry
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response.status === 401 && !originalRequest.sent) {
+      originalRequest.sent = true;
 
       try {
-        const token = getRefreshToken();
-        const { accessToken } = await axios.post("/auth/refresh-token", {
-          token,
-        });
-        storeTokens(accessToken, getRefreshToken());
-        axiosInstance.defaults.headers["Authorization"] = `JWT ${accessToken}`;
+        const refreshToken = getRefreshToken();
+        const { accessToken } = (
+          await axiosInstance.post("/auth/refresh-token", {
+            refreshToken,
+          })
+        ).data;
+
         originalRequest.headers["Authorization"] = `JWT ${accessToken}`;
+        storeTokens(accessToken, getRefreshToken());
         return axiosInstance(originalRequest);
-      } catch (err) {
+      } catch (refreshError) {
+        console.error("Refresh token request failed:", refreshError);
         removeTokens();
         toast.error("Session expired. Please log in again.", {
-          duration: 2000,
+          duration: 5000,
           position: "top-center",
         });
-
         window.location.href = import.meta.env.VITE_LOGIN_URL;
       }
     }

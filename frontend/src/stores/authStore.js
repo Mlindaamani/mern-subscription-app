@@ -8,6 +8,8 @@ import {
   getAccessToken,
 } from "../utils/localStorage";
 
+import { getBackendErrorMessage } from "../utils/functions";
+
 export const authStore = create(
   persist(
     (set) => ({
@@ -36,9 +38,9 @@ export const authStore = create(
           navigate("/login");
         } catch (error) {
           set({ loading: false });
-          toast.error(error.response.data.message, {
+          toast.error(getBackendErrorMessage(error), {
             duration: 2000,
-            position: "bottom-right",
+            position: "top-center",
             id: "register",
           });
         }
@@ -57,15 +59,6 @@ export const authStore = create(
             })
           ).data;
 
-          const results = (
-            await axiosInstance.post("/auth/login/", {
-              email,
-              password,
-            })
-          ).data;
-          
-          console.log(results);
-
           storeTokens(accessToken, refreshToken);
           toast.success("You have successfully logged in.", {
             duration: 2000,
@@ -78,7 +71,7 @@ export const authStore = create(
           navigate("/videos/");
         } catch (error) {
           set({ loading: false });
-          toast.error(error.response.data.message, {
+          toast.error(getBackendErrorMessage(error), {
             duration: 2000,
             position: "top-center",
             id: "login",

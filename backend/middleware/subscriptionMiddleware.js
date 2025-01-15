@@ -1,11 +1,12 @@
-const Subscription = require("../models/Subscription");
+const { Subscription } = require("../models/Subscription");
 
 const userHasSubscribedMiddleware = async (req, res, next) => {
+  const { id: userId } = req.user;
   try {
-    const subscription = await Subscription.findOne({ user: req.user.id });
-    if (!subscription || !subscription.isActive) {
+    const subscription = await Subscription.findOne({ user: userId });
+    if (!subscription) {
       return res.status(403).json({
-        message: "Acess denied! You have no active subscription!",
+        message: "You have no active subscription!",
       });
     }
     next();

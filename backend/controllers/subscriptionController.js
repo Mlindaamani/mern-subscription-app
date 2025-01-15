@@ -13,7 +13,7 @@ const subscribe = async (req, res) => {
   }
 
   try {
-    let userSubscription = await Subscription.find({ user: req.user.id });
+    let userSubscription = await Subscription.findById({ user: req.user.id });
 
     if (userSubscription.length === 0) {
       await Subscription.create({

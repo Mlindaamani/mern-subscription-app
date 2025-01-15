@@ -53,7 +53,7 @@ export const VideoDetails = () => {
             </p>
             <ButtonGroup>
               <Button
-                variant="danger btn-sm fw-bold"  
+                variant="danger btn-sm fw-bold"
                 onClick={handleDownload}
                 disabled={!user.hasPaid}
               >
@@ -71,50 +71,6 @@ export const VideoDetails = () => {
             </ButtonGroup>
           </div>
         </div>
-      </Container>
-
-      {/* Recommendations */}
-      <Container className="mt-5 p-5 bg-light bg-opacity-80 rounded-5">
-        <h1 className="text-center p-1 text-success mb-5 mt-1">
-          You Might Also Like
-        </h1>
-        <Row>
-          {videos?.map((video) => (
-            <Col xs={12} md={4} lg={3} className="mb-4" key={video._id}>
-              <Link
-                to={`/videos/${video._id}`}
-                className="text-decoration-none"
-              >
-                <div className="bg-success rounded-4">
-                  <div className="text-white p-3">
-                    <img
-                      className="w-100 rounded-4 img-thumbnail"
-                      src={video.fileUrl}
-                      alt="Video Thumbnail"
-                    />
-                    <h4 className="mt-2 mb-5">{video.title}</h4>
-
-                    {/* VIEWS AND VIEW MORE */}
-                    <div className="d-flex justify-content-between mt-3 align-items-start">
-                      <span className="fw-bold text-white">
-                        {video.views}
-                        {formatVideoViewsCount(video.views)} Views
-                      </span>
-                      {user?.hasPaid && (
-                        <Button
-                          variant="danger fw-bold fw-bold rounded-5"
-                          className="btn-sm text-white"
-                        >
-                          View Video
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          ))}
-        </Row>
       </Container>
     </div>
   );

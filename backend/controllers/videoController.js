@@ -54,7 +54,7 @@ const videos = async (req, res) => {
     return res.status(200).json(video);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Sorry  the server is down");
+    res.status(500).send({ message: "Internal server error!" });
   }
 };
 
@@ -65,23 +65,24 @@ const videos = async (req, res) => {
 
 const getVideoById = async (req, res) => {
   const { id: videoId } = req.params;
-  console.log(id);
-  console.log("This line of code wad excuted successful");
   const { hasPaid } = req.user;
+
+  //Verify the incomming Video Id
   if (!verifyMongoDbId(videoId)) {
     return res.status(400).json({
       message: "Video not found. Try a valid ID",
     });
   }
 
+  //Check wether a user paid
   if (!hasPaid) {
     return res
       .status(403)
-      .json({ message: "Access denied. You have no active subscription!" });
+      .json({ message: "You have no active subscription!" });
   }
 
   try {
-    const video = await Video.findById(videoId);
+    const video = await Video.findById({ _id: videoId });
     if (!video) {
       return res.status(404).json({
         success: true,
@@ -91,11 +92,7 @@ const getVideoById = async (req, res) => {
     }
 
     video.fileUrl = formatVideoThumbnail(video.fileUrl, req);
-    return res.json({
-      success: true,
-      message: "video retrieve successfully",
-      video,
-    });
+    return res.json({ video });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server  Error");

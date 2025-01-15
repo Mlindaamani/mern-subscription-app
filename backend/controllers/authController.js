@@ -7,6 +7,15 @@ const {
   generateRefreshToken,
 } = require("../utils/functions");
 
+/**
+ * @typedef {import('express').Request} Request
+ * @typedef {import('express').Response} Response
+ */
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 const register = async (req, res) => {
   const { username, email, password, role } = req.body;
 
@@ -23,25 +32,28 @@ const register = async (req, res) => {
       password: await bcryptjs.hash(password, 10),
     });
 
-    return res.status(201).json({ success: true, errors: false, user });
+    return res
+      .status(201)
+      .json({ success: "Successfully created Account!", user });
   } catch (error) {
-    console.error(error.message);
-    console.log(error.name);
+    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({
-        error: true,
-        success: false,
-        message: "No user found with given credentials",
-      });
+      return res
+        .status(404)
+        .json({ message: "No user found with given credentials" });
     }
 
     const passwordMatches = await bcryptjs.compare(password, user.password);
@@ -70,20 +82,34 @@ const login = async (req, res) => {
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 const refreshToken = (req, res) => {
-  const { token } = req.body;
-  console.log(token);
-  if (!token) return res.sendStatus(401);
-  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
+  const { refreshToken } = req.body;
+
+  // Check if refresh token is provided
+  if (!refreshToken) {
+    return res.status(400).json({ message: "Provide a refresh token!" });
+  }
+
+  // Verify the refresh token
+  jwt.verify(refreshToken, process.env.JWT_SECRET, (error, user) => {
+    if (error) {
+      return res.status(403).json({ message: "Invalid refresh token!" });
+    }
+
+    // If the refresh token is valid, generate a new access token
     const payload = {
       id: user._id,
       name: user.username,
       role: user.role,
       hasPaid: user.hasPaid,
     };
+
     const accessToken = generateAccessToken(payload);
-    res.json({ accessToken });
+    res.status(200).json({ accessToken });
   });
 };
 

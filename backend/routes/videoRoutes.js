@@ -27,7 +27,7 @@ videoRouter.post(
   uploadVideo
 );
 
-videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
+videoRouter.get("/", videos);
 
 videoRouter.get("/download/:id", userIsAuthenticatedMiddleware, downloadVideo);
 

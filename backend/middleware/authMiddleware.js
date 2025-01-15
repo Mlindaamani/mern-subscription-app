@@ -12,11 +12,12 @@ const { User } = require("../models/User");
  */
 const userIsAuthenticatedMiddleware = async (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Access denied" });
+  if (!token)
+    return res.status(400).json({ message: "Token was not provided!" });
 
   try {
     jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-      if (error) return res.status(401).json({ message: "Wrong token" });
+      if (error) return res.status(401).json({ message: error.message });
       req.user = user;
       next();
     });
