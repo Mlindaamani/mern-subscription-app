@@ -53,8 +53,6 @@ export const videoStore = create((set) => ({
       set({ video: response.data.video, loading: false });
     } catch (error) {
       set({ loading: false });
-      console.log("Get video by id executing...");
-      console.log(error.response.data.message);
       toast.error(error.response.data.message, {
         duration: 4000,
         position: "top-center",

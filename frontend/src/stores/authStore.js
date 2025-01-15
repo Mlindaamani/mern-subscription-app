@@ -67,7 +67,6 @@ export const authStore = create(
           });
 
           set({ isAuthenticated: true, loading: false, user: user });
-
           navigate("/videos/");
         } catch (error) {
           set({ loading: false });

@@ -13,5 +13,4 @@ export const formatVideoViewsCount = (viewsCount) => {
   if (viewsCount >= 4) return "M";
 };
 
-//The 'error' argument is Axios Error object
 export const getBackendErrorMessage = (error) => error.response.data.message;
