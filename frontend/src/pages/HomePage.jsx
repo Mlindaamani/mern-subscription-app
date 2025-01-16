@@ -14,7 +14,7 @@ export const HomePage = () => {
       }}
     >
       <div className="mt-5 p-5 bg-success vh-100">
-        <h1 className="mt-5 text-center p-5 mb-5 text-white">
+        <h1 className="mt-5 text-center p-5 mb-5 text-white ">
           CREDOR THE DANCER
         </h1>
 

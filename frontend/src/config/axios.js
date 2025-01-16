@@ -1,13 +1,13 @@
 import axios from "axios";
-const { VITE_BACKEND_URL } = import.meta.env;
-const { VITE_LOGIN_URL } = import.meta.env;
-
 import {
   getAccessToken,
   getRefreshToken,
   storeTokens,
   removeTokens,
 } from "../utils/localStorage";
+
+const { VITE_BACKEND_URL } = import.meta.env;
+const { VITE_LOGIN_URL } = import.meta.env;
 
 // Create AxiosnInstance.
 export const axiosInstance = axios.create({
@@ -20,7 +20,6 @@ axiosInstance.interceptors.request.use(
     const token = getAccessToken();
     if (token && !config.headers.Authorization) {
       config.headers.Authorization = `JWT ${token}`;
-      console.log("Token attached to the request header successfully!");
     }
     return config;
   },
@@ -40,10 +39,11 @@ axiosInstance.interceptors.response.use(
 
       try {
         const refreshToken = getRefreshToken();
-        const response = await axiosInstance.post("/auth/refresh-token", {
-          refreshToken,
-        });
-        const accessToken = response.data;
+        const { accessToken } = (
+          await axiosInstance.post("/auth/refresh-token", {
+            refreshToken,
+          })
+        ).data;
         storeTokens(accessToken, refreshToken);
         previousRequest.headers.Authorization = `JWT ${accessToken}`;
         // Retry previous request with new access token
