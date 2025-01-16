@@ -124,9 +124,21 @@ const downloadVideo = async (req, res) => {
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+const getLatestVideos = async (req, res) => {
+  const user = req.user;
+  return res
+    .status(200)
+    .json({ message: "Your retrieved successfully", user: user });
+};
+
 module.exports = {
   downloadVideo,
   getVideoById,
   videos,
   uploadVideo,
+  getLatestVideos,
 };

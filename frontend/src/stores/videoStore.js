@@ -50,8 +50,9 @@ export const videoStore = create((set) => ({
 
   fetchVideoById: async (videoId) => {
     try {
-      const response = await axiosInstance.get(`/videos/${videoId}`);
-      set({ video: response.data.video, loading: false });
+      const { video } = await axiosInstance.get(`/videos/${videoId}`).data;
+      console.log(video);
+      set({ video: video, loading: false });
     } catch (error) {
       set({ loading: false });
       toast.error(getBackendErrorMessage(error), {
@@ -90,3 +91,5 @@ export const videoStore = create((set) => ({
     }
   },
 }));
+
+//MessageId for Zena Wilson : 677723b2d5bf3be939321230

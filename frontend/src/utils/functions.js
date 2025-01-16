@@ -13,4 +13,4 @@ export const formatVideoViewsCount = (viewsCount) => {
   if (viewsCount >= 4) return "M";
 };
 
-export const getBackendErrorMessage = (error) => error.response.data.message;
+export const getBackendErrorMessage = (error) => error.response?.data?.message;

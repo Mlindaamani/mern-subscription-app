@@ -38,10 +38,11 @@ axiosInstance.interceptors.response.use(
 
       try {
         const refreshToken = getRefreshToken();
-        const { accessToken } = (
-          await axiosInstance.post("/auth/refresh-token", { refreshToken })
-        ).data;
-        storeTokens(accessToken, getRefreshToken());
+        const response = await axiosInstance.post("/auth/refresh-token", {
+          refreshToken,
+        });
+        const accessToken = response.data;
+        storeTokens(accessToken, refreshToken);
         previousRequest.headers.Authorization = `JWT ${accessToken}`;
         // Retry previous request with new access token
         return axiosInstance(previousRequest);

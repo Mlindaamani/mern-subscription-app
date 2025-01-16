@@ -4,6 +4,7 @@ const {
   downloadVideo,
   getVideoById,
   videos,
+  getLatestVideos,
 } = require("../controllers/videoController.js");
 
 const {
@@ -30,6 +31,8 @@ videoRouter.post(
 videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
 
 videoRouter.get("/download/:id", userIsAuthenticatedMiddleware, downloadVideo);
+
+videoRouter.get("/latest", userIsAuthenticatedMiddleware, getLatestVideos);
 
 videoRouter.get(
   "/:id",
