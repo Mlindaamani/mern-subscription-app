@@ -39,7 +39,7 @@ export const Videos = () => {
                     </span>
                     {user?.hasPaid && (
                       <Button
-                        variant="success fw-bold fw-bold rounded-5 bg-opacity-25"
+                        variant="success fw-bold fw-bold rounded-5 bg-opacity-50"
                         className="btn-sm text-white"
                       >
                         View Video

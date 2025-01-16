@@ -1,6 +1,5 @@
 const { Message } = require("../models/Message");
 const { Conversation } = require("../models/Conversation");
-const { verifyMongoDbId } = require("../utils/functions");
 
 /**
  * @typedef {import('express').Request} Request
@@ -25,9 +24,10 @@ const getMessages = async (req, res) => {
 const getSenderMessages = async (req, res) => {
   const { id: senderId } = req.user;
 
-  const messages = await Message.find({ senderId: senderId })
-    .sort({ created_at: "desc" })
-    .limit(3);
+  const messages = await Message.find({ senderId: senderId }).sort({
+    created_at: "desc",
+  });
+
   if (messages.length > 0) {
     res.status(200).json({ messages: messages });
   }

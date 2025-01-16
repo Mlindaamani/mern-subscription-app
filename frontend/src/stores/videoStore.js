@@ -1,6 +1,7 @@
 import create from "zustand";
 import { axiosInstance } from "../config/axios";
 import toast from "react-hot-toast";
+import { getBackendErrorMessage } from "../utils/functions";
 
 export const videoStore = create((set) => ({
   loading: false,
@@ -24,7 +25,7 @@ export const videoStore = create((set) => ({
       navigate("/videos");
     } catch (error) {
       set({ loading: false });
-      toast.error(error.response.data.message, {
+      toast.error(getBackendErrorMessage(error), {
         duration: 2000,
         position: "top-right",
         id: "video",
@@ -35,11 +36,11 @@ export const videoStore = create((set) => ({
   fetchVideos: async () => {
     set({ loading: true });
     try {
-      const response = await axiosInstance.get("/videos/");
-      set({ videos: response.data, loading: false });
+      const { data } = await axiosInstance.get("/videos/");
+      set({ videos: data, loading: false });
     } catch (error) {
       set({ loading: false });
-      toast.error(error.response.data.message, {
+      toast.error(getBackendErrorMessage(error), {
         duration: 2000,
         position: "top-center",
         id: "video",
@@ -53,7 +54,7 @@ export const videoStore = create((set) => ({
       set({ video: response.data.video, loading: false });
     } catch (error) {
       set({ loading: false });
-      toast.error(error.response.data.message, {
+      toast.error(getBackendErrorMessage(error), {
         duration: 4000,
         position: "top-center",
         id: "video",
@@ -63,11 +64,10 @@ export const videoStore = create((set) => ({
 
   downloadVideo: async (videoId) => {
     try {
-      const response = await axiosInstance.get(`/videos/download/${videoId}`, {
+      const { data } = await axiosInstance.get(`/videos/download/${videoId}`, {
         responseType: "blob",
       });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      console.log(url);
+      const url = window.URL.createObjectURL(new Blob([data]));
 
       const link = document.createElement("a");
       link.href = url;
@@ -82,7 +82,7 @@ export const videoStore = create((set) => ({
         id: "video",
       });
     } catch (error) {
-      toast.error("Failed to download video", {
+      toast.error(getBackendErrorMessage(error), {
         duration: 2000,
         position: "top-center",
         id: "video",

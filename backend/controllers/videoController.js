@@ -67,14 +67,14 @@ const getVideoById = async (req, res) => {
   const { id: videoId } = req.params;
   const { hasPaid } = req.user;
 
-  //Verify the incomming Video Id
+  // Verify the incomming Video Id
   if (!verifyMongoDbId(videoId)) {
     return res.status(400).json({
       message: "Video not found. Try a valid ID",
     });
   }
 
-  //Check wether a user paid
+  // Check wether a user paid
   if (!hasPaid) {
     return res
       .status(403)
@@ -84,11 +84,9 @@ const getVideoById = async (req, res) => {
   try {
     const video = await Video.findById({ _id: videoId });
     if (!video) {
-      return res.status(404).json({
-        success: true,
-        error: false,
-        message: "The requested video was not found",
-      });
+      return res
+        .status(404)
+        .json({ message: "The requested video was not found" });
     }
 
     video.fileUrl = formatVideoThumbnail(video.fileUrl, req);

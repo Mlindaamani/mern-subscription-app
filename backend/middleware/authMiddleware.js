@@ -17,7 +17,9 @@ const userIsAuthenticatedMiddleware = async (req, res, next) => {
 
   try {
     jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-      if (error) return res.status(401).json({ message: error.message });
+      if (error) {
+        return res.status(401).json({ message: error.message });
+      }
       req.user = user;
       next();
     });
