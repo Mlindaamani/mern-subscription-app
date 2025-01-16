@@ -49,9 +49,17 @@ export const videoStore = create((set) => ({
   },
 
   fetchVideoById: async (videoId) => {
+    console.log("Executing this line of code...");
     try {
-      const { video } = await axiosInstance.get(`/videos/${videoId}`).data;
-      console.log(video);
+      const { video } = (await axiosInstance.get(`/videos/${videoId}`)).data;
+      toast.success("Video retrieved successfully", {
+        duration: 5000,
+        position: "top-center",
+        id: "video_retrival",
+      });
+
+      console.log("Program definetely reached this point of execution");
+
       set({ video: video, loading: false });
     } catch (error) {
       set({ loading: false });

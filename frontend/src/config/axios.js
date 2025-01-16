@@ -20,6 +20,7 @@ axiosInstance.interceptors.request.use(
     const token = getAccessToken();
     if (token && !config.headers.Authorization) {
       config.headers.Authorization = `JWT ${token}`;
+      console.log("Token attached to the request header successfully!");
     }
     return config;
   },
@@ -32,6 +33,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
 
   async (error) => {
+    //Status code greater then 2xx will trigger these code
     const previousRequest = error.config;
     if (error.response.status === 401 && !previousRequest.sent) {
       previousRequest.sent = true;
