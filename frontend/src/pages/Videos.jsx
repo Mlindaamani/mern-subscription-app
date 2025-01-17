@@ -42,7 +42,7 @@ export const Videos = () => {
                         variant="success fw-bold fw-bold rounded-5 bg-opacity-50"
                         className="btn-sm text-white"
                       >
-                        View Video
+                        {user.hasPaid ? "View Video" : "Pay to View Video"}
                       </Button>
                     )}
                   </div>
