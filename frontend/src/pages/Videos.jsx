@@ -31,7 +31,7 @@ export const Videos = () => {
                   />
                   <h4 className="mt-2 mb-5">{video.title}</h4>
 
-                  {/* vIEWS AND VIEW MORE */}
+                  {/* VIEWS AND VIEW MORE */}
                   <div className="d-flex justify-content-between mt-3 align-items-start">
                     <span className="fw-bold text-white">
                       {video.views}

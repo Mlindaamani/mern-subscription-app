@@ -16,11 +16,12 @@ const userIsAuthenticatedMiddleware = async (req, res, next) => {
     return res.status(401).json({ message: "Token was not provided!" });
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
+    jwt.verify(token, process.env.JWT_ACCESS_SECRET, (error, user) => {
       if (error) {
         return res.status(401).json({ message: error.message });
       }
       req.user = user;
+      console.log(req.user);
       next();
     });
   } catch (error) {

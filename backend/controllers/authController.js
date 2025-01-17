@@ -95,7 +95,7 @@ const refreshToken = (req, res) => {
   }
 
   // Verify the refresh token
-  jwt.verify(refreshToken, process.env.JWT_SECRET, (error, user) => {
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (error, user) => {
     if (error) {
       return res.status(403).json({ message: "Invalid refresh token!" });
     }

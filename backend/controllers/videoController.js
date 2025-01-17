@@ -4,6 +4,8 @@ const {
   verifyMongoDbId,
 } = require("../utils/functions.js");
 
+//SENDER = 67771dea999ed7ad666711b6
+//RECEIVER_MESSAGE_ID 67770d047fb71c1020eb09a9
 /**
  * @typedef {import('express').Request} Request
  * @typedef {import('express').Response} Response
@@ -41,7 +43,6 @@ const uploadVideo = async (req, res) => {
 };
 
 /**
- *
  * @param {Request} req
  * @param {Response} res
  */
@@ -66,6 +67,8 @@ const videos = async (req, res) => {
 const getVideoById = async (req, res) => {
   const { id: videoId } = req.params;
   const { hasPaid } = req.user;
+
+  console.log(req.user);
 
   // Verify the incomming Video Id
   if (!verifyMongoDbId(videoId)) {
