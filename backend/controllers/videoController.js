@@ -103,22 +103,28 @@ const getVideoById = async (req, res) => {
 
 const downloadVideo = async (req, res) => {
   const { id: videoId } = req.params;
+
+  // Verify the incoming Video Id
+  if (!verifyMongoDbId(videoId)) {
+    return res.status(400).json({
+      message: "Invalid video ID. Please provide a valid ID.",
+    });
+  }
+
   try {
     const video = await Video.findById(videoId);
-    if (video) {
-      await Video.findOneAndUpdate(
-        { _id: videoId },
-        {
-          views: (video.views += 1),
-          downloads: (video.downloads += 1),
-        },
-        { new: true }
-      );
-      return res.download(video.fileUrl, video.title);
-    } else {
+    if (!video) {
       return res.status(404).json({ error: "Video not found" });
     }
+
+    // Increment views and downloads
+    video.views += 1;
+    video.downloads += 1;
+    await video.save();
+
+    return res.download(video.fileUrl, video.title);
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Failed to download video" });
   }
 };
