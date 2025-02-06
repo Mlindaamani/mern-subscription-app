@@ -28,11 +28,8 @@ videoRouter.post(
   uploadVideo
 );
 
-videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
-
-videoRouter.get("/download/:id", userIsAuthenticatedMiddleware, downloadVideo);
-
-videoRouter.get("/latest", userIsAuthenticatedMiddleware, getLatestVideos);
+// videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
+videoRouter.get("/", videos);
 
 videoRouter.get(
   "/:id",
@@ -40,5 +37,9 @@ videoRouter.get(
   userHasSubscribedMiddleware,
   getVideoById
 );
+
+videoRouter.get("/download/:id", userIsAuthenticatedMiddleware, downloadVideo);
+
+videoRouter.get("/latest", userIsAuthenticatedMiddleware, getLatestVideos);
 
 module.exports = { videoRouter };

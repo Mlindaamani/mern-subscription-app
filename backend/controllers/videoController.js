@@ -4,8 +4,6 @@ const {
   verifyMongoDbId,
 } = require("../utils/functions.js");
 
-//SENDER = 67771dea999ed7ad666711b6
-//RECEIVER_MESSAGE_ID 67770d047fb71c1020eb09a9
 /**
  * @typedef {import('express').Request} Request
  * @typedef {import('express').Response} Response
@@ -33,7 +31,6 @@ const uploadVideo = async (req, res) => {
     });
 
     return res.status(201).json({
-      success: true,
       message: "Video Uploaded successfully",
     });
   } catch (error) {
@@ -68,12 +65,10 @@ const getVideoById = async (req, res) => {
   const { id: videoId } = req.params;
   const { hasPaid } = req.user;
 
-  console.log(req.user);
-
   // Verify the incomming Video Id
   if (!verifyMongoDbId(videoId)) {
     return res.status(400).json({
-      message: "Video not found. Try a valid ID",
+      message: "Looks like your id is not valid. Try again with valid id!",
     });
   }
 
@@ -81,18 +76,19 @@ const getVideoById = async (req, res) => {
   if (!hasPaid) {
     return res
       .status(403)
-      .json({ message: "You have no active subscription!" });
+      .json({ message: "You need to pay to view the video!" });
   }
 
   try {
     const video = await Video.findById({ _id: videoId });
+
     if (!video) {
       return res
         .status(404)
         .json({ message: "The requested video was not found" });
     }
 
-    video.fileUrl = formatVideoThumbnail(video.fileUrl, req);
+    video.fileUrl = formatVideoThumbnail(video.fileUrl, video.title);
     return res.json({ video });
   } catch (error) {
     console.error(error.message);

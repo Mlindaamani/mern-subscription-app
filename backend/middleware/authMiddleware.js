@@ -21,7 +21,6 @@ const userIsAuthenticatedMiddleware = async (req, res, next) => {
         return res.status(401).json({ message: error.message });
       }
       req.user = user;
-      console.log(req.user);
       next();
     });
   } catch (error) {

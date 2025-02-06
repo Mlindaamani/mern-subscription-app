@@ -1,6 +1,6 @@
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const corsConfiguration = {
   cors: {
@@ -30,7 +30,7 @@ const formatVideoThumbnail = (videoUrl, req) => {
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   console.log(salt);
-  return await bycrypt.hash(password, salt);
+  return await bcrypt.hash(password, salt);
 };
 
 const verifyMongoDbId = (videoId) => {
@@ -38,9 +38,7 @@ const verifyMongoDbId = (videoId) => {
 };
 
 const startServer = () => {
-  console.log(
-    `✅ Success! Server is running on http://localhost:${process.env.PORT}`
-  );
+  console.log(`✔️  Success! Server is running on port: ${process.env.PORT}`);
 };
 
 module.exports = {

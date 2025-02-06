@@ -100,10 +100,10 @@ const refreshToken = (req, res) => {
       return res.status(403).json({ message: "Invalid refresh token!" });
     }
 
-    // If the refresh token is valid, generate a new access token
+    //Payload
     const payload = {
-      id: user._id,
-      name: user.username,
+      id: user.id,
+      name: user.name,
       role: user.role,
       hasPaid: user.hasPaid,
     };
