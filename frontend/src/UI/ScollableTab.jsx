@@ -1,9 +1,10 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import React from "react";
+import { useState } from "react";
+
 export const ScrollableTabsButtonAuto = () => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -16,9 +17,8 @@ export const ScrollableTabsButtonAuto = () => {
         onChange={handleChange}
         variant="scrollable"
         scrollButtons="auto"
-  
       >
-        <Tab label="Item One"/>
+        <Tab label="Item One" />
         <Tab label="Item Two" />
         <Tab label="Item Three" />
         <Tab label="Item Four" />

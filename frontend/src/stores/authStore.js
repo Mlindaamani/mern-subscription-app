@@ -15,6 +15,7 @@ export const authStore = create(
     (set) => ({
       user: null,
       loading: false,
+      isAdmin,
       isAuthenticated: !!getAccessToken(),
 
       register: async (username, email, password, navigate) => {

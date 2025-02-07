@@ -10,6 +10,7 @@ const {
   authRouter,
   messageRouter,
 } = require("./routes");
+
 const { connnectToMongoDb } = require("./config/database");
 const express = require("express");
 const socketIo = require("socket.io");
