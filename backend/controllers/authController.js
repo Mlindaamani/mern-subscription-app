@@ -1,7 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/User");
-
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -9,7 +8,7 @@ const {
 
 /**
  * @typedef {import('express').Request} Request
- * @typedef {import('express').Response} Response
+ * @typedef {import('express').Response} Responsev
  */
 
 /**
@@ -36,7 +35,7 @@ const register = async (req, res) => {
       .status(201)
       .json({ success: "Successfully created Account!", user });
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -113,4 +112,20 @@ const refreshToken = (req, res) => {
   });
 };
 
-module.exports = { register, login, refreshToken };
+const checkIfTokenExpired = () => {
+  console.log("Checking whether the token as expired");
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        name: "Watching CI/CD tutorials",
+        duration: "1hr",
+        instructor: "Devsteve",
+        channel_name: "Phz Universal",
+        created_at: "12.23.333:T0000:444",
+        updated_at: "12.23.333:T0000:444",
+      });
+    }, DELAY);
+  });
+};
+
+module.exports = { register, login, refreshToken, checkIfTokenExpired };

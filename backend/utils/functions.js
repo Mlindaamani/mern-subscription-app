@@ -41,7 +41,18 @@ const startServer = () => {
   console.log(`✔️  Success! Server is running on port: ${process.env.PORT}`);
 };
 
+const formatDate = (isoDate) => {
+  const date = new Date(isoDate);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return date.toLocaleString("en-US", options);
+};
+
 module.exports = {
+  formatDate,
   corsConfiguration,
   generateAccessToken,
   generateRefreshToken,
