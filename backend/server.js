@@ -2,6 +2,7 @@ const { corsConfiguration, startServer } = require("./utils/functions");
 const cors = require("cors");
 const morgan = require("morgan");
 const { errorMiddleware } = require("./middleware/errorMiddleware");
+const { connnectToMongoDb } = require("./config/database");
 const {
   userRouter,
   videoRouter,
@@ -11,7 +12,6 @@ const {
   messageRouter,
 } = require("./routes");
 
-const { connnectToMongoDb } = require("./config/database");
 const express = require("express");
 const socketIo = require("socket.io");
 const http = require("http");
@@ -22,13 +22,15 @@ const server = http.createServer(app);
 const io = socketIo(server, corsConfiguration);
 
 io.on("connection", (socket) => {
-  console.log("Connected");
-  socket.on("sendMessage", async (messageData) => {
-    io.emit("receiveMessage", messageData);
+  console.log("User connected...");
+
+  socket.on("newMessage", (data) => {
+    console.log("Message received: ", data);
+    io.emit("messageResponse", data);
   });
 
-  socket.on("disconnect", (reason) => {
-    console.log(`Chat close with: ${reason}`);
+  socket.on("disconnect", () => {
+    console.log("User disconnected from the chat...");
   });
 });
 
@@ -47,9 +49,9 @@ app.use("/api/subscription", subscriptionRouter);
 app.use("/api/messages", messageRouter);
 
 // Server Instance
-server.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, async () => {
   startServer();
-  connnectToMongoDb();
+  await connnectToMongoDb();
 });
 
 app.use(errorMiddleware);

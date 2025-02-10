@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const { model, Schema } = mongoose;
 
 const conversationSchema = Schema(
@@ -7,6 +8,7 @@ const conversationSchema = Schema(
 
     messages: [{ type: Schema.Types.ObjectId, ref: "Message", default: [] }],
   },
+
   {
     timestamps: {
       createdAt: "created_at",

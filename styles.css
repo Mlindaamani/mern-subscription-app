@@ -1,0 +1,14 @@
+.sidebar {
+  height: 100vh;
+  background-color: #343a40;
+  color: white;
+  padding: 20px;
+}
+.content {
+  padding: 20px;
+}
+@media (max-width: 768px) {
+  .sidebar {
+    height: auto;
+  }
+}

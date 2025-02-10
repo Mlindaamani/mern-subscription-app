@@ -12,7 +12,7 @@ import { AuthLayout } from "./layouts/AuthLayout";
 import { AuthenticationRequired } from "./components/Authenticated";
 import { StripeCheckout } from "./pages/StripeCheckout";
 import { NotFound } from "./components/NotFound";
-import { TestMaterialUI } from "./UI/Test";
+import { RealTimeChat } from "./chats/RealTimeChat";
 
 export const App = () => {
   return (
@@ -23,11 +23,11 @@ export const App = () => {
           <Route index element={<HomePage />} />
           <Route element={<AuthenticationRequired />}>
             <Route path="/videos" element={<Videos />} />
+            <Route path="/chat" element={<RealTimeChat />} />
             <Route path="/videos/:videoId" element={<VideoDetails />} />
             <Route path="/upload" element={<VideoUpload />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/checkout" element={<StripeCheckout />} />
-            <Route path="/test" element={<TestMaterialUI />} />
           </Route>
         </Route>
 

@@ -28,8 +28,7 @@ videoRouter.post(
   uploadVideo
 );
 
-// videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
-videoRouter.get("/", videos);
+videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
 
 videoRouter.get(
   "/:id",

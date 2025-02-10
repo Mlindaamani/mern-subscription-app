@@ -4,6 +4,7 @@ import { authStore } from "../stores/authStore";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
+
 export const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

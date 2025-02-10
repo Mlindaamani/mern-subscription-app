@@ -14,6 +14,7 @@ const {
  * @param {Response} res
  */
 const uploadVideo = async (req, res) => {
+  // Check wether the file exists before contining
   if (!req.file) {
     return res.status(400).json({ message: "Kindly fill all fields" });
   }

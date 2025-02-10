@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./chats.css";
 import { authStore } from "../stores/authStore";
-import { socket } from "../chats/socket";
+import { io } from "socket.io-client";
+const { VITE_SOCKET_URL } = import.meta.env;
+
+const socket = io(VITE_SOCKET_URL);
 
 export const RealTimeChat = () => {
   const [message, setMessage] = useState("");
@@ -9,39 +12,41 @@ export const RealTimeChat = () => {
   const { user } = authStore();
 
   useEffect(() => {
-    console.log(socket);
-    socket.on("receiveMessage", (newMessage) => {
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    socket.on("messageResponse", (data) => {
+      console.log(data);
+      setMessages((prevMessages) => [...prevMessages, data]);
     });
 
     return () => {
-      socket.off("receiveMessage");
+      socket.disconnect();
     };
   }, []);
 
-  const sendMessage = () => {
-    if (message != "") {
-      const messageData = { sender: user?.username, message };
-      socket.emit("sendMessage", messageData);
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if (message !== "") {
+      const messageData = { sender: user?.name, message };
+      socket.emit("newMessage", messageData);
+      setMessages((prevMessages) => [...prevMessages, messageData]);
       setMessage("");
     }
   };
 
   return (
-    <div className="chat-container container p-5">
+    <div className="chat-container container p-5 mt-5">
       <h2 className="chat-title text-center text-light mb-5">
-        Chat({user.username})
+        Chat({user.name})
       </h2>
       <div className="messages">
         {messages.map((msg, index) => (
           <div
             key={index}
             className={`message ${
-              msg.sender === "Peter" ? "message-sent" : "message-received"
+              msg.sender === user?.name ? "message-sent" : "message-received"
             }`}
           >
             <p className="message-content text-secondary">
-              <code className="fs-5 text-success">{user?.username}: </code>
+              <code className="fs-5 text-success">{user?.name}: </code>
               {msg.message}
             </p>
           </div>

@@ -112,20 +112,4 @@ const refreshToken = (req, res) => {
   });
 };
 
-const checkIfTokenExpired = () => {
-  console.log("Checking whether the token as expired");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        name: "Watching CI/CD tutorials",
-        duration: "1hr",
-        instructor: "Devsteve",
-        channel_name: "Phz Universal",
-        created_at: "12.23.333:T0000:444",
-        updated_at: "12.23.333:T0000:444",
-      });
-    }, DELAY);
-  });
-};
-
-module.exports = { register, login, refreshToken, checkIfTokenExpired };
+module.exports = { register, login, refreshToken };

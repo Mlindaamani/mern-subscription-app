@@ -2,18 +2,13 @@ const { Message } = require("../models/Message");
 const { Conversation } = require("../models/Conversation");
 
 /**
- * @typedef {import('express').Request} Request
- * @typedef {import('express').Response} Response
- T
-
-/**
- * 
- * @param {Request} req 
- * @param {Response} res 
- * @returns 
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns
  */
 const getMessages = async (req, res) => {
-  const messages = await Message.find().sort({ created_at: "asc" }).limit(100);
+  const messages = await Message.find().sort({ created_at: "asc" });
   return res.status(200).json({ messages: messages });
 };
 
