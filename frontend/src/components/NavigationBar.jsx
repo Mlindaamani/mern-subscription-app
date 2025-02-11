@@ -29,7 +29,7 @@ export const NavigationBar = () => {
               </Nav.Link>
 
               <Nav.Link as={Link} to="/subscription" className="text-light">
-                {user.hasPaid ? "Upgrade" : "Subscribe"}
+                {user?.hasPaid ? "Upgrade" : "Subscribe"}
               </Nav.Link>
 
               <Nav.Link className="text-light" onClick={handleLogout}>

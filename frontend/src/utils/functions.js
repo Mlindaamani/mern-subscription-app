@@ -13,8 +13,6 @@ export const formatVideoViewsCount = (viewsCount) => {
   if (viewsCount >= 4) return "M";
 };
 
-export const getBackendErrorMessage = (error) => error.response?.data?.message;
-
 export const downloadFile = (data, filename) => {
   const blob = new Blob([data]);
   const url = window.URL.createObjectURL(blob);
@@ -31,3 +29,5 @@ export const downloadFile = (data, filename) => {
   document.body.removeChild(link);
   window.URL.revokeObjectURL(url);
 };
+
+export const getBackendErrorMessage = (error) => error.response?.data?.message;

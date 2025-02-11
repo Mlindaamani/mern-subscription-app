@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./chats.css";
 import { authStore } from "../stores/authStore";
-import { io } from "socket.io-client";
-const { VITE_SOCKET_URL } = import.meta.env;
-
-const socket = io(VITE_SOCKET_URL);
+import { socket } from "./socket";
+import { formatDate } from "../utils/functions";
 
 export const RealTimeChat = () => {
   const [message, setMessage] = useState("");
@@ -12,30 +10,32 @@ export const RealTimeChat = () => {
   const { user } = authStore();
 
   useEffect(() => {
-    socket.on("messageResponse", (data) => {
+    socket.on("messageReceived", (data) => {
       console.log(data);
       setMessages((prevMessages) => [...prevMessages, data]);
     });
 
-    return () => {
-      socket.disconnect();
-    };
+    return () => socket.off("messageReceived");
   }, []);
 
   const sendMessage = (e) => {
     e.preventDefault();
-    if (message !== "") {
-      const messageData = { sender: user?.name, message };
-      socket.emit("newMessage", messageData);
-      setMessages((prevMessages) => [...prevMessages, messageData]);
-      setMessage("");
-    }
+    if (message === "") return;
+
+    const messageData = {
+      sender: user?.name,
+      message,
+      sentAt: formatDate(Date.now()),
+    };
+    socket.emit("newMessage", messageData);
+    setMessages((prevMessages) => [...prevMessages, messageData]);
+    setMessage("");
   };
 
   return (
     <div className="chat-container container p-5 mt-5">
-      <h2 className="chat-title text-center text-light mb-5">
-        Chat({user.name})
+      <h2 className="chat-title text-center text-secondary mb-5">
+        Chat({user?.name})
       </h2>
       <div className="messages">
         {messages.map((msg, index) => (
