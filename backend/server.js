@@ -25,12 +25,12 @@ io.on("connection", (socket) => {
   console.log("User connected...");
 
   socket.on("newMessage", (data) => {
-    console.log("Message received: ", data);
-    io.emit("messageResponse", data);
+    console.log("New Message:", data);
+    io.emit("messageReceived", data);
   });
 
   socket.on("disconnect", () => {
-    console.log("User disconnected from the chat...");
+    console.log("user disconnected");
   });
 });
 
