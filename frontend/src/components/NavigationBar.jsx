@@ -32,11 +32,12 @@ export const NavigationBar = () => {
                 {user?.hasPaid ? "Upgrade" : "Subscribe"}
               </Nav.Link>
 
-              <Nav.Link className="text-light" onClick={handleLogout}>
-                Logout
-              </Nav.Link>
               <Nav.Link className="text-light" as={Link} to="/chat">
                 Chat
+              </Nav.Link>
+
+              <Nav.Link className="text-light" onClick={handleLogout}>
+                Logout
               </Nav.Link>
             </>
           )}

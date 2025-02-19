@@ -62,9 +62,10 @@ const login = async (req, res) => {
 
     const payload = {
       id: user._id,
-      name: user.username,
+      username: user.username,
       role: user.role,
       hasPaid: user.hasPaid,
+      profileUrl: user.profileUrl,
     };
 
     const accessToken = generateAccessToken(payload);
@@ -112,4 +113,17 @@ const refreshToken = (req, res) => {
   });
 };
 
-module.exports = { register, login, refreshToken };
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+const checkAuth = (req, res) => {
+  try {
+    return res.status(200).json({ user: req.user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+};
+
+module.exports = { register, login, refreshToken, checkAuth };

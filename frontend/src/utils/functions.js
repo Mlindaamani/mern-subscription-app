@@ -1,16 +1,29 @@
-export const formatDate = (isoDate) => {
+export const formatDate = (isoDate, options = {}) => {
   const date = new Date(isoDate);
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+
+  const defaultOptions = {
+    minute: "2-digit",
+    hour: "2-digit",
+    day: "2-digit",
+    month: "short",
+    hour24: true,
   };
-  return date.toLocaleString("en-US", options);
+  // Merge default options with user-provided options
+  const finalOptions = { ...defaultOptions, ...options };
+
+  return date.toLocaleString("en-US", finalOptions);
 };
 
 export const formatVideoViewsCount = (viewsCount) => {
-  if (viewsCount <= 4) return "K";
-  if (viewsCount >= 4) return "M";
+  if (viewsCount < 1_000) {
+    return viewsCount.toString();
+  } else if (viewsCount < 1_000_000) {
+    return (viewsCount / 1000).toFixed(1) + "K";
+  } else if (viewsCount < 1_000_000_000) {
+    return (viewsCount / 1_000_000).toFixed(1) + "M";
+  } else {
+    return (viewsCount / 1_000_000_000).toFixed(1) + "B";
+  }
 };
 
 export const downloadFile = (data, filename) => {
@@ -31,3 +44,69 @@ export const downloadFile = (data, filename) => {
 };
 
 export const getBackendErrorMessage = (error) => error.response?.data?.message;
+
+export const getEmoji = () => {
+  const emojies = [
+    "😀",
+    "😂",
+    "😍",
+    "😎",
+    "😢",
+    "😡",
+    "🥳",
+    "😱",
+    "😴",
+    "😇",
+    "🤔",
+    "😜",
+    "😋",
+    "😏",
+    "😬",
+    "😳",
+    "😵",
+    "🤯",
+    "🥺",
+    "😺",
+    "🐶",
+    "🐱",
+    "🐻",
+    "🐼",
+    "🐨",
+    "🦁",
+    "🐯",
+    "🦊",
+    "🐸",
+    "🐵",
+    "🐔",
+    "🐧",
+    "🐦",
+    "🐤",
+    "🐣",
+    "🐘",
+    "🦒",
+    "🐬",
+    "🐳",
+    "🐋",
+    "🦈",
+    "🐊",
+    "🦙",
+    "🐴",
+    "🦄",
+    "🌈",
+    "🌻",
+    "🌼",
+    "🎛️",
+    "🌺",
+    "🍎",
+    "🍕",
+    "🍔",
+    "🍣",
+    "🍦",
+    "🎉",
+    "🎈",
+    "🎊",
+    "🤖",
+    "🎵",
+  ];
+  return emojies[Math.floor(Math.random() * emojies.length)];
+};

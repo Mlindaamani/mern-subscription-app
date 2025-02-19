@@ -2,12 +2,13 @@ const { Subscription } = require("../models/Subscription");
 
 const userHasSubscribedMiddleware = async (req, res, next) => {
   const { id: userId } = req.user;
-  console.log("UserId:", userId);
 
   try {
-    const subscription = await Subscription.findOne({ user: userId });
-
-    // console.log(subscription);
+    const subscription = await Subscription.findOne({ user: userId }).populate(
+      "user",
+      ["username", "_id"]
+    );
+    
     if (!subscription) {
       return res.status(403).json({
         message: "You have no active subscription!",

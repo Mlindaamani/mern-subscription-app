@@ -19,6 +19,11 @@ const messageSchema = Schema(
       type: String,
       required: [true, "Message is required"],
     },
+
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   {

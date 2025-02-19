@@ -40,9 +40,9 @@ const userSchema = Schema(
       default: false,
     },
 
-    date: {
-      type: Date,
-      default: Date.now,
+    profileUrl: {
+      type: String,
+      default: "devsteve.jpeg",
     },
   },
 

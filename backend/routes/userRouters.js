@@ -1,8 +1,4 @@
-const {
-  getAllUsers,
-  profile,
-  getUserById,
-} = require("../controllers/userController");
+const { getSidebarUsers } = require("../controllers/userController");
 
 const {
   userIsAuthenticatedMiddleware,
@@ -11,10 +7,6 @@ const {
 const express = require("express");
 const userRouter = express.Router();
 
-userRouter.get("/", userIsAuthenticatedMiddleware, getAllUsers);
-
-userRouter.get("/profile", userIsAuthenticatedMiddleware, profile);
-
-userRouter.get("/:id", userIsAuthenticatedMiddleware, getUserById);
+userRouter.get("/chat-users", userIsAuthenticatedMiddleware, getSidebarUsers);
 
 module.exports = { userRouter };

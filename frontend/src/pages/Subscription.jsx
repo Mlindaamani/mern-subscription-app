@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
-import { IMAGES } from "../images/Images";
+// import { IMAGES } from "../images/Images";
 import { SubscribeButton } from "../components/SubscribeButton";
 import { subscriptionStore } from "../stores/subscriptionStore";
 
@@ -35,7 +35,7 @@ export const Subscription = () => {
               <h1 className="text-center p-3 text-secondary fw-bold">BASIC</h1>
               <div className="d-flex jusify-content-between align-items-center gap-5 flex-column">
                 <img
-                  src={IMAGES.image1}
+                  src="g2.png"
                   alt="Basic Image"
                   className="img-thumbnail rounded-4"
                 />
@@ -70,7 +70,7 @@ export const Subscription = () => {
               <h1 className="text-center p-3 text-primary fw-bold">STANDARD</h1>
               <div className="d-flex jusify-content-between align-items-center gap-5 flex-column">
                 <img
-                  src={IMAGES.image2}
+                  src="/image2.png"
                   alt="Standard Image"
                   className="img-thumbnail"
                 />
@@ -105,7 +105,7 @@ export const Subscription = () => {
               <h1 className="text-center p-3 text-success fw-bold">MERU</h1>
               <div className="d-flex jusify-content-between align-items-center gap-5 flex-column">
                 <img
-                  src={IMAGES.image3}
+                  src="/image3.jpg"
                   alt="Basic Image"
                   className="img-thumbnail rounded-4"
                 />
@@ -140,7 +140,7 @@ export const Subscription = () => {
               <h1 className="text-center p-3 text-danger fw-bold">PREMIUM</h1>
               <div className="d-flex jusify-content-between align-items-center gap-5 flex-column">
                 <img
-                  src={IMAGES.image4}
+                  src="/image4.png"
                   alt="Basic Image"
                   className="img-thumbnail rounded-4"
                 />

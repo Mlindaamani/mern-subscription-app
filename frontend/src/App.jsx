@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { VideoUpload } from "./pages/VideoUpload";
 import { LoginForm } from "./pages/LoginForm";
@@ -25,7 +25,10 @@ export const App = () => {
             <Route path="/videos" element={<Videos />} />
             <Route path="/chat" element={<RealTimeChat />} />
             <Route path="/videos/:videoId" element={<VideoDetails />} />
-            <Route path="/upload" element={<VideoUpload />} />
+            <Route
+              path="/upload"
+              element={<VideoUpload /> }
+            />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/checkout" element={<StripeCheckout />} />
           </Route>

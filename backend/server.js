@@ -1,4 +1,5 @@
-const { corsConfiguration, startServer } = require("./utils/functions");
+const { startServer } = require("./utils/functions");
+const { server, app, express } = require("./server/socket");
 const cors = require("cors");
 const morgan = require("morgan");
 const { errorMiddleware } = require("./middleware/errorMiddleware");
@@ -11,28 +12,6 @@ const {
   authRouter,
   messageRouter,
 } = require("./routes");
-
-const express = require("express");
-const socketIo = require("socket.io");
-const http = require("http");
-
-// Initialize SocketIO Server
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server, corsConfiguration);
-
-io.on("connection", (socket) => {
-  console.log("User connected...");
-
-  socket.on("newMessage", (data) => {
-    console.log("New Message:", data);
-    io.emit("messageReceived", data);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
 
 // Middleware
 app.use(cors());

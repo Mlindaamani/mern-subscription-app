@@ -1,7 +1,8 @@
 const {
   sendMessage,
-  getMessages,
-  getSenderMessages,
+  markMessageAsRead,
+  getMessagesBetweenUsers,
+  deleteConversation,
 } = require("../controllers/messageController");
 
 const {
@@ -11,14 +12,21 @@ const {
 const express = require("express");
 const messageRouter = express.Router();
 
-messageRouter.get("/", getMessages);
-
+//MESSAGES ROUTES
 messageRouter.post(
   "/send/:receiverId",
   userIsAuthenticatedMiddleware,
   sendMessage
 );
 
-messageRouter.get("/me", userIsAuthenticatedMiddleware, getSenderMessages);
+messageRouter.get(
+  "/messages-between-users/:receiverId",
+  userIsAuthenticatedMiddleware,
+  getMessagesBetweenUsers
+);
+
+messageRouter.delete("/delete/:conversationId", deleteConversation);
+
+messageRouter.patch("/mark-as-read/:id", markMessageAsRead);
 
 module.exports = { messageRouter };

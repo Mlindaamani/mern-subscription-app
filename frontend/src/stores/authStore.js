@@ -8,6 +8,8 @@ import {
   getAccessToken,
 } from "../utils/localStorage";
 
+import { useSocket } from "./useSocket";
+
 import { getBackendErrorMessage } from "../utils/functions";
 
 export const authStore = create(
@@ -50,7 +52,6 @@ export const authStore = create(
         if (!email || !password) return toast.error("All field are required!");
 
         set({ loading: true });
-
         try {
           const { accessToken, refreshToken, user } = (
             await axiosInstance.post("/auth/login/", {
@@ -65,8 +66,11 @@ export const authStore = create(
             position: "top-right",
             id: "login",
           });
-
           set({ isAuthenticated: true, loading: false, user: user });
+
+          //Connect to the socket on login
+          useSocket.getState().connectToSocketServer();
+
           navigate("/videos/");
         } catch (error) {
           set({ loading: false });
@@ -81,6 +85,7 @@ export const authStore = create(
       logout: (navigate) => {
         removeTokens();
         set({ isAuthenticated: false, user: null });
+        useSocket.getState().disconnect();
         navigate("/login");
       },
     }),

@@ -19,7 +19,13 @@ const {
 const express = require("express");
 const videoRouter = express.Router();
 
-//VIDEO ROUTES
+videoRouter.get(
+  "/:videoId",
+  userIsAuthenticatedMiddleware,
+  userHasSubscribedMiddleware,
+  getVideoById
+);
+
 videoRouter.post(
   "/upload",
   userIsAuthenticatedMiddleware,
@@ -29,13 +35,6 @@ videoRouter.post(
 );
 
 videoRouter.get("/", userIsAuthenticatedMiddleware, videos);
-
-videoRouter.get(
-  "/:id",
-  userIsAuthenticatedMiddleware,
-  userHasSubscribedMiddleware,
-  getVideoById
-);
 
 videoRouter.get("/download/:id", userIsAuthenticatedMiddleware, downloadVideo);
 

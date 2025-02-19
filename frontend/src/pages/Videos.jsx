@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { videoStore } from "../stores/videoStore";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Loader } from "../components/Loader";
 import { authStore } from "../stores/authStore";
 import { formatVideoViewsCount } from "../utils/functions";
+import { SearchComponent } from "../components/Search";
 
 export const Videos = () => {
   const { fetchVideos, videos, loading } = videoStore();
   const { user } = authStore();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchVideos();
@@ -18,6 +20,9 @@ export const Videos = () => {
 
   return (
     <Container className="mt-5 p-5">
+      {/* Search component */}
+      <SearchComponent searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <h2 className="text-dark mt-5 px-3">Videos</h2>
       <Row>
         {videos?.map((video) => (
           <Col xs={12} md={4} lg={3} className="mb-4" key={video._id}>
@@ -28,13 +33,14 @@ export const Videos = () => {
                     className="w-100 rounded-4 img-thumbnail"
                     src={video.fileUrl}
                     alt="Video Thumbnail"
+                    width={50}
+                    height={50}
                   />
                   <h4 className="mt-2 mb-5">{video.title}</h4>
 
                   {/* VIEWS AND VIEW MORE */}
                   <div className="d-flex justify-content-between mt-3 align-items-start">
                     <span className="fw-bold text-white">
-                      {video.views}
                       {formatVideoViewsCount(video.views)} Views
                     </span>
                     {user?.hasPaid && (

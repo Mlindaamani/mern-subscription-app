@@ -1,46 +1,21 @@
 const { Message } = require("../models/Message");
 const { Conversation } = require("../models/Conversation");
+const { io, getReceiverSocketId } = require("../server/socket");
 
 /**
- *
- * @param {Request} req
- * @param {Response} res
- * @returns
+ * @typedef {import('express').Request} Request
+ * @typedef {import('express').Response} Responsev
  */
-const getMessages = async (req, res) => {
-  const messages = await Message.find().sort({ created_at: "asc" });
-  return res.status(200).json({ messages: messages });
-};
 
 /**
  * @param {Request} req
  * @param {Response} res
  */
-const getSenderMessages = async (req, res) => {
-  const { id: senderId } = req.user;
-
-  const messages = await Message.find({ senderId: senderId }).sort({
-    created_at: "desc",
-  });
-
-  if (messages.length > 0) {
-    res.status(200).json({ messages: messages });
-  }
-};
-
 const sendMessage = async (req, res) => {
   try {
     const { receiverId } = req.params;
     const { id: senderId } = req.user;
     const { message } = req.body;
-
-    // Validate the message content.
-    if (!message || typeof message !== "string" || message.trim() === "") {
-      return res.status(400).json({
-        success: false,
-        message: "Message content cannot be empty.",
-      });
-    }
 
     // Find the existing conversation
     let conversation = await Conversation.findOne({
@@ -64,21 +39,16 @@ const sendMessage = async (req, res) => {
     // Push the new message ID to the conversation's messages array
     conversation.messages.push(newMessage._id);
 
+    //Sending the message via socketIo server
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      //send new message to the receiver
+      io.to(receiverSocketId).emit("new-message", newMessage);
+    }
+
     // Save the updated conversation
     await conversation.save();
-
-    // SERVER EMITS 'newMessage' EVENT
-    // Emit the new message to the receiver via WebSocket
-    // io.to(receiverId).emit("newMessage", {
-    //   message: newMessage,
-    //   senderId,
-    //   receiverId,
-    // });
-
-    res.status(201).json({
-      message: "Message Sent successfully!",
-      message: newMessage,
-    });
+    res.status(201).json(newMessage);
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -88,28 +58,75 @@ const sendMessage = async (req, res) => {
   }
 };
 
-module.exports = { sendMessage, getMessages, getSenderMessages };
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+const getMessagesBetweenUsers = async (req, res) => {
+  const { receiverId } = req.params;
+  const { id: senderId } = req.user;
+  try {
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, receiverId] },
+    }).populate("messages");
 
-// CLIENT LISTEN FOR 'newMessage' EVENT
-// const socket = io();
-// // Listen for new messages
-// socket.on("newMessage", (data) => {
-//   const { message, senderId, receiverId } = data;
-//   // Update your UI to display the new message
-//   console.log(`New message from ${senderId}: ${message}`);
-// Update your message list or chat window here
-// });
+    if (conversation) {
+      res.status(200).json(conversation.messages);
+    } else {
+      res.status(200).json([]);
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal sever error" });
+  }
+};
 
-// AGGREGATION PIPELINE
-// const results = await Message.aggregate([
-//   { $match: { conversationId: conversationId } }, // Stage 1: Filter messages for a specific conversation
-//   { $sort: { created_at: 1 } }, // Stage 2: Sort messages by creation date (ascending)
-//   {
-//     $group: {
-//       _id: "$senderId",
-//       count: { $sum: 1 },
-//       messages: { $push: "$message" }, //Collects the actual message content into an array of messages
-//     },
-//   }, // Stage 3: Group by senderId, count messages, and collect messages
-//   { $project: { senderId: "$_id", count: 1, messages: 1, _id: 0 } }, // Stage 4: Reshape the output only include senderId, count, messages
-// ]);
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+const markMessageAsRead = async (req, res) => {
+  const { id: messageId } = req.params;
+  try {
+    const message = await Message.findByIdAndUpdate(
+      messageId,
+      { isRead: true },
+      { new: true }
+    );
+    res
+      .status(200)
+      .json({ message, actionComment: "Message updated successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal sever error" });
+  }
+};
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+const deleteConversation = async (req, res) => {
+  const { conversationId } = req.params;
+  try {
+    const conversation = await Conversation.findById(conversationId);
+
+    if (!conversation) {
+      res.status(404).json({ message: "No converstion found" });
+    }
+
+    await Message.deleteMany({ _id: { $in: conversation.messages } });
+    await Conversation.findByIdAndDelete(conversationId);
+    res.status(200).json({ message: "Conversation deleted successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal sever error" });
+  }
+};
+
+module.exports = {
+  sendMessage,
+  getMessagesBetweenUsers,
+  markMessageAsRead,
+  deleteConversation,
+};

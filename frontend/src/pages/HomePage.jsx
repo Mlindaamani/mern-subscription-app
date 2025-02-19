@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
+import { authStore } from "../stores/authStore";
 
 export const HomePage = () => {
+  const { isAuthenticated } = authStore();
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -13,7 +15,7 @@ export const HomePage = () => {
         ease: [0, 0.71, 0.2, 1.01],
       }}
     >
-      <div className="mt-5 p-5 bg-success vh-100">
+      <div className="mt-5 p-5 bg-success container">
         <h1 className="mt-5 text-center p-5 mb-5 text-white ">
           CREDOR THE DANCER
         </h1>
@@ -27,7 +29,9 @@ export const HomePage = () => {
             to={"/videos"}
             className="text-center text-decoration-none mt-4 text-light bg-primary p-4 rounded-5"
           >
-            View Our Latest Videos
+            {isAuthenticated
+              ? " View Our Latest Videos"
+              : "Login/Sign up for your credor account"}
           </Link>
         </div>
       </div>
