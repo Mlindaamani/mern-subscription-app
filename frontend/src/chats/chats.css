@@ -1,15 +1,18 @@
 .chat-container {
   padding: 20px;
-  background-color: #d2cece46;
+  background-color: #ffffffe7;
   border-radius: 16px;
   width: 100%;
+}
+
+.chat-header {
+  background: linear-gradient(135deg, #000000dd, #04101f);
 }
 
 .messages {
   max-height: 800px;
   overflow-y: scroll;
   margin-bottom: 30px;
-  /* scrollbar-width: none; */
 }
 
 .message {
@@ -99,9 +102,5 @@
 }
 
 .status-indicator.online {
-  background-color: green;
-}
-
-.status-indicator.offline {
-  background-color: gray;
+  background-color: rgb(7, 105, 7);
 }

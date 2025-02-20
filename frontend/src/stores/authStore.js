@@ -2,15 +2,15 @@ import toast from "react-hot-toast";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { axiosInstance } from "../config/axios";
+import { useSocket } from "./socketStore";
 import {
   removeTokens,
   storeTokens,
   getAccessToken,
 } from "../utils/localStorage";
 
-import { useSocket } from "./useSocket";
-
 import { getBackendErrorMessage } from "../utils/functions";
+const { connectToSocketServer } = useSocket.getState();
 
 export const authStore = create(
   persist(
@@ -68,8 +68,8 @@ export const authStore = create(
           });
           set({ isAuthenticated: true, loading: false, user: user });
 
-          //Connect to the socket on login
-          useSocket.getState().connectToSocketServer();
+          // Connect to SocketIo Server.
+          connectToSocketServer();
 
           navigate("/videos/");
         } catch (error) {
